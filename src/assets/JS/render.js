@@ -222,7 +222,7 @@ let expandConsole=()=>{
 // document.getElementById("getGridLayout").addEventListener("click", getGridLayout);
 // document.getElementById("generateCast").addEventListener("click", generateCast);
 document.getElementById("generateRecordCast").addEventListener("click", generateRecordCast);
-// document.getElementById("getCDTInfo").addEventListener("click", getCdtInfo);
+document.getElementById("getCDTInfo").addEventListener("click", getCdtInfo);
 // document.getElementById("getWorkInfo").addEventListener("click", getWorkInfo);
 // document.getElementById("getBillboard").addEventListener("click", getBillboardLayout);
 // document.getElementById("getAppianCode").addEventListener("click", generateAppianCode);

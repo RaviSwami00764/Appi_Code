@@ -219,7 +219,7 @@ function clrCardUtils(){
 
 let getCdtInfo = ()=>{
     // data.match(/(?<=Move up\nMove down\nRemove\n)\w+/g)
-    let data = document.getElementById("code-editor").value;
+    let data = codeEditor.getValue();
 
 
     let cdtName = data.match(/(?<=Data Type Icon\n)(\w+)/g)[0];
@@ -228,8 +228,6 @@ let getCdtInfo = ()=>{
     let cdt_fileds = data.match(/(?<=Move down\nRemove\n)\w+/g);
     cdt_fileds.splice(0,0,data.match(/(?<=Array\nKey\n)\w+/)[0]);
 
-    document.getElementById("result-wrapper").style.visibility = "visible";
-    document.getElementById("result-wrapper").style.display = "block";
     
     let result = `
     <div>
@@ -241,12 +239,8 @@ let getCdtInfo = ()=>{
     }
     result+=`</div>`
 
-    let target = document.getElementById('code');
+    let target = document.getElementById('content2');
     target.innerHTML = `<pre>${result}</pre>`;
-
-    showDownloadButton(false);    
-    document.getElementById("code-run").addEventListener("click", getCdtInfo);
-
 }
 
 
