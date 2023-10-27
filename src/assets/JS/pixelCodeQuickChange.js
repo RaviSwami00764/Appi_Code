@@ -54,20 +54,12 @@ let pixelCodeHeightHandler = (data) =>{
       result = result.replace(pattern, function(match, group) {
         const words = group.split('.');
         const patterns = words.map(word => `${patternName}${word}`).join(',\n');
-        if(contentName!=""){
-          return `-${functionName}Kh{\n${patterns},\n$shh_1099_value:`;
-        }
-        else{
-          return `-${functionName}Kh{\n${patterns},`;
-        }
+        return `-${functionName}Kh{\n${patterns},\n$shh_1099_value:`;
       });
       
       
-      if(contentName!=""){
-        result = result.replace(singlePattern, `-${functionName}Kh{\n${patternName}$1,\n$shh_1099_value:`);
-        result = result.replace(defaultRegex, `-${functionName}Kh{\n$shh_1099_value:`);
-      }
-
+      result = result.replace(singlePattern, `-${functionName}Kh{\n${patternName}$1,\n$shh_1099_value:`);
+      result = result.replace(defaultRegex, `-${functionName}Kh{\n$shh_1099_value:`);
 
       // result = getFinalResult(result,/(?<=\$shh\_1099\_value\:\s*)\{/g, `\n\t}\n)</div>`);
       result = result.replace(/\$shh\_1099\_value/g, contentName);
@@ -101,12 +93,14 @@ let pixelCodeHeightHandler = (data) =>{
       result = result.replace(new RegExp(`${patternName}\\$\\d+\\s*,*`, 'g'), '');
       result = result.replace(new RegExp(`${patternName}\\w+\\s*,*`, 'g'), '');
 
+      result = result.replace(/pghcodemaindropFlexduid0073\:/g,"");
+
       return result;
     }
 
     const singlePatterns = [
       {type: "gridColumnPattern", key: "gc", patternsArray: gcPatterns, contentName: "value", appianFunctionName: "gridColumn" },
-      {type: "hrPattern", key: "hr", patternsArray: hrPattern, contentName: "", appianFunctionName: "horizontalLine" },
+      {type: "hrPattern", key: "hr", patternsArray: hrPattern, contentName: "pghcodemaindropFlexduid0073", appianFunctionName: "horizontalLine" },
       
     ];
     

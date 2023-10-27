@@ -387,26 +387,6 @@ let cardPatterns = {
   
   };
 
-  let pixelGhPatternsCode = {
-    "card"   : cardPatterns,
-    "rd"     : rdPatterns,
-    "rt"     : rtPatterns,
-    "ri"     : riPatterns,
-    "cls"    : clsPattern,
-    "cl"     : clPattern,
-    "section": sectionPatterns,
-    "ss"     : ssPattern,
-    "box"    : boxPatterns,
-    "tags"   : tagsPattern,
-    "tag"    : tagPatterns,
-    "stm"    : stmPatterns,
-    "img"    : imgPatterns,
-    "dmg"    : dmgPatterns,
-    "umg"    : umgPatterns,
-    "wmg"    : wmgPatterns,
-    "gc"     : gcPatterns
-  }
-
   let hrPattern = {
     'clst' : `color: "STANDARD"`,   
     'clac' : `color: "ACCENT"`,   
@@ -429,6 +409,29 @@ let cardPatterns = {
     'ma4'  : `marginAbove: "MORE"`,
     'ma5'  : `marginAbove: "EVEN_MORE"`,
   }
+
+  let pixelGhPatternsCode = {
+    "card"   : cardPatterns,
+    "rd"     : rdPatterns,
+    "rt"     : rtPatterns,
+    "ri"     : riPatterns,
+    "cls"    : clsPattern,
+    "cl"     : clPattern,
+    "section": sectionPatterns,
+    "ss"     : ssPattern,
+    "box"    : boxPatterns,
+    "tags"   : tagsPattern,
+    "tag"    : tagPatterns,
+    "stm"    : stmPatterns,
+    "img"    : imgPatterns,
+    "dmg"    : dmgPatterns,
+    "umg"    : umgPatterns,
+    "wmg"    : wmgPatterns,
+    "gc"     : gcPatterns,
+    "hr"     : hrPattern
+  }
+
+ 
 
 function pixelCodeTablePatterns(functionName){
     let currentFunctionPatterns = {};
