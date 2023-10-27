@@ -407,6 +407,28 @@ let cardPatterns = {
     "gc"     : gcPatterns
   }
 
+  let hrPattern = {
+    'clst' : `color: "STANDARD"`,   
+    'clac' : `color: "ACCENT"`,   
+    'clsc' : `color: "SECONDARY"`, 
+
+    't1' : `weight: "THIN"`,
+    't2' : `weight: "MEDIUM"`,
+    't3' : `weight: "THICK"`,
+
+    'mb0'  : `marginBelow: "NONE"`,
+    'mb1'  : `marginBelow: "EVEN_LESS"`,
+    'mb2'  : `marginBelow: "LESS"`,
+    'mb3'  : `marginBelow: "STANDARD"`,
+    'mb4'  : `marginBelow: "MORE"`,
+    'mb5'  : `marginBelow: "EVEN_MORE"`,   
+    'ma0'  : `marginAbove: "NONE"`,
+    'ma1'  : `marginAbove: "EVEN_LESS"`,
+    'ma2'  : `marginAbove: "LESS"`,
+    'ma3'  : `marginAbove: "STANDARD"`,
+    'ma4'  : `marginAbove: "MORE"`,
+    'ma5'  : `marginAbove: "EVEN_MORE"`,
+  }
 
 function pixelCodeTablePatterns(functionName){
     let currentFunctionPatterns = {};

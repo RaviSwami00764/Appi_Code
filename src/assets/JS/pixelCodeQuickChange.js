@@ -54,12 +54,19 @@ let pixelCodeHeightHandler = (data) =>{
       result = result.replace(pattern, function(match, group) {
         const words = group.split('.');
         const patterns = words.map(word => `${patternName}${word}`).join(',\n');
-        return `-${functionName}Kh{\n${patterns},\n$shh_1099_value:`;
+        if(contentName!=""){
+          return `-${functionName}Kh{\n${patterns},\n$shh_1099_value:`;
+        }
+        else{
+          return `-${functionName}Kh{\n${patterns},`;
+        }
       });
       
       
-      result = result.replace(singlePattern, `-${functionName}Kh{\n${patternName}$1,\n$shh_1099_value:`);
-      result = result.replace(defaultRegex, `-${functionName}Kh{\n$shh_1099_value:`);
+      if(contentName!=""){
+        result = result.replace(singlePattern, `-${functionName}Kh{\n${patternName}$1,\n$shh_1099_value:`);
+        result = result.replace(defaultRegex, `-${functionName}Kh{\n$shh_1099_value:`);
+      }
 
 
       // result = getFinalResult(result,/(?<=\$shh\_1099\_value\:\s*)\{/g, `\n\t}\n)</div>`);
@@ -99,6 +106,8 @@ let pixelCodeHeightHandler = (data) =>{
 
     const singlePatterns = [
       {type: "gridColumnPattern", key: "gc", patternsArray: gcPatterns, contentName: "value", appianFunctionName: "gridColumn" },
+      {type: "hrPattern", key: "hr", patternsArray: hrPattern, contentName: "", appianFunctionName: "horizontalLine" },
+      
     ];
     
     singlePatterns.forEach(({type, key, patternsArray, contentName, appianFunctionName }) => {
