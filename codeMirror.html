@@ -1,45 +1,298 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/dracula.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/addon/edit/matchbrackets.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/javascript/javascript.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@0.18.0/dist/index.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <style>
+    body {
+      width: 100vw;
+      overflow-x: hidden;
+    }
+
+    .main-container {
+      box-sizing: border-box;
+      padding-top: 10px;
+      padding-left: 70px;
+      padding-right: 70px;
+      width: 100%;
+    }
+
+    .horizontal-header {
+      margin-top: 0.8em;
+      padding-left: 20px;
+      padding-right: 20px;
+      box-sizing: border-box;
+      margin-bottom: 3px;
+    }
+
+    .horizontal-header a {
+      text-decoration: none;
+      margin-right: 3em;
+      color: #171717;
+    }
+
+    .horizontal-bar {
+      background-color: #171717;
+      height: 12%;
+      width: 100%;
+    }
+
+    .section-tab {
+      height: 270px;
+      padding: 15px;
+      box-sizing: border-box;
+      background-color: transparent;
+    }
+
+    .section-content {
+      background-color: #f7f7f7;
+      height: 100%;
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    /* Define a CSS class for the sliding effect */
+    .slide-on-hover {
+      cursor: pointer;
+      transition: padding 0.5s;
+      /* Adjust the duration for the desired animation speed */
+    }
+
+    .slide-on-hover:hover {
+      padding: 30px;
+      /* Adjust the value for the desired animation */
+    }
+
+
+    .modal-dialog {
+      max-width: 100%;
+      margin: 0;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .modal-content {
+      height: 100%;
+      width: 100%;
+    }
+
+    .image-wrapper {
+      width: 100%;
+      height: 100%;
+      background-image: url('your-image.jpg');
+      /* Replace 'your-image.jpg' with your image path */
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  </style>
+
 </head>
+
 <body>
-  <div id="editor"></div>
+  <div class="sticky-top mt-2" style="background-color: #fafafa;">
+    <div class="horizontal-header row align-items-center">
+      <div class="col-7 text-start">
+        <a href="#" class="nav-dashboard">Dashboard Designs</a>
+        <a href="#" class="nav-vertialnav">Navbar Designs</a>
+      </div>
+      <div class="col-5 text-end">
+
+      </div>
+    </div>
+    <div class="horizontal-bar p-4">
+
+    </div>
+  </div>
+  <div class="main-container">
+    <div class="row text-start" id="uiCodeContainer">
+      <!-- The JavaScript code will populate this container -->
+    </div>
+  </div>
+
 
   <script>
-    const completions = [
-      { label: "panic", type: "keyword" },
-      { label: "park", type: "constant", info: "Test completion" },
-      { label: "password", type: "variable" },
-    ];
-  
-    function myCompletions(context) {
-      let before = context.matchBefore(/\w+/);
-      if (!context.explicit && !before) return null;
-      return {
-        from: before ? before.from : context.pos,
-        options: completions,
-        validFor: /^\w*$/,
-      };
-    }
-  
-    const editor = CodeMirror(document.getElementById("editor"), {
-      value: "// Type a 'p'\n",
-      mode: "javascript",
-      theme: "dracula",
-      matchBrackets: true,
-      extraKeys: {
-        "Ctrl-Space": (cm) => cm.showHint({ hint: myCompletions }),
+    // Your uiCodes array
+    var uiCodes = [
+      {
+        "imgPath": "/src/images/Project-TaskReport.png",
+        "imgWidth": "80%",
+        "imgHeight": "98%",
+        "bgColor": "#dfd8d2",
+        "code": "some code will be here 1......"
       },
-      lineNumbers: true,
-      lineWrapping: true,
+      {
+        "imgPath": "/src/images/noteSection.png",
+        "imgWidth": "100%",
+        "imgHeight": "98%",
+        "bgColor": "#f8f9fc",
+        "code": "some code will be here 2......"
+      },
+      {
+        "imgPath": "/src/images/project-TaskDashboard.png",
+        "imgWidth": "40%",
+        "imgHeight": "90%",
+        "bgColor": "#dfd8d2",
+        "code": "some code will be here 3......"
+      },
+      {
+        "imgPath": "/src/images/project-timeline.png",
+        "imgWidth": "100%",
+        "imgHeight": "98%",
+        "bgColor": "#f7f7f7",
+        "code": "some code will be here 4......"
+      },
+      {
+        "imgPath": "/src/images/naviGation-01.png",
+        "imgWidth": "80%",
+        "imgHeight": "98%",
+        "bgColor": "#f6f6f6",
+        "code": "some code will be here 5......"
+      },
+      {
+        "imgPath": "/src/images/infoCard-01.png",
+        "imgWidth": "60%",
+        "imgHeight": "80%",
+        "bgColor": "#000",
+        "code": "some code will be here 6......"
+      }
+      // Add more elements as needed
+    ];
+
+    function copyCodeToClipboard() {
+      // Select the code in the modal
+      var codeElement = document.querySelector(".modal-body code");
+      var copyButton = document.getElementById("copyCodeButton");
+      copyButton.innerText = "Copied!!!";
+      // Create a range and select the text within the code element
+      var range = document.createRange();
+      range.selectNode(codeElement);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Deselect the text
+      window.getSelection().removeAllRanges();
+
+    }
+
+    var container = document.getElementById("uiCodeContainer");
+
+    uiCodes.forEach(function (item) {
+      var colDiv = document.createElement("div");
+      colDiv.className = "col-3 section-tab";
+
+      var sectionContentDiv = document.createElement("div");
+      sectionContentDiv.className = "section-content d-flex align-items-center justify-content-center slide-on-hover";
+      sectionContentDiv.style.backgroundColor = `${item.bgColor}`;
+
+
+      var imgWrapper = document.createElement("div");
+      imgWrapper.className = "image-wrapper";
+      imgWrapper.style.backgroundImage = `url(${item.imgPath})`;
+
+      sectionContentDiv.appendChild(imgWrapper);
+
+      // img.src = item.imgPath;
+      // img.alt = "";
+      // img.style.width = item.imgWidth;
+      // img.style.height = item.imgHeight;
+      // img.style.display = "block";
+      sectionContentDiv.setAttribute("data-toggle", "modal");
+      sectionContentDiv.setAttribute("data-target", "#codeModal");
+
+      // sectionContentDiv.appendChild(img);
+      colDiv.appendChild(sectionContentDiv);
+      container.appendChild(colDiv);
+
+      // Create the modal for displaying code
+      var modal = document.createElement("div");
+      modal.className = "modal fade";
+      modal.id = "codeModal";
+      modal.tabIndex = -1;
+      modal.role = "dialog";
+      modal.setAttribute("aria-labelledby", "codeModalLabel");
+      modal.setAttribute("aria-hidden", "true");
+
+      var modalDialog = document.createElement("div");
+      modalDialog.className = "modal-dialog";
+      modalDialog.role = "document";
+
+      var modalContent = document.createElement("div");
+      modalContent.className = "modal-content";
+
+      var modalHeader = document.createElement("div");
+      modalHeader.className = "modal-header";
+
+      var modalTitle = document.createElement("h5");
+      modalTitle.className = "modal-title";
+      modalTitle.id = "codeModalLabel";
+      modalTitle.textContent = "Code";
+
+      var closeButton = document.createElement("button");
+      closeButton.type = "button";
+      closeButton.className = "close";
+      closeButton.setAttribute("data-dismiss", "modal");
+      closeButton.setAttribute("aria-label", "Close");
+
+      var closeIcon = document.createElement("span");
+      closeIcon.setAttribute("aria-hidden", "true");
+      closeIcon.textContent = "×";
+
+      closeButton.appendChild(closeIcon);
+      modalHeader.appendChild(modalTitle);
+      modalHeader.appendChild(closeButton);
+
+      var modalBody = document.createElement("div");
+      modalBody.className = "modal-body";
+
+      var codePre = document.createElement("pre");
+      var codeCode = document.createElement("code");
+      codeCode.textContent = item.code;
+      codePre.appendChild(codeCode);
+      modalBody.appendChild(codePre);
+
+      var modalFooter = document.createElement("div");
+      modalFooter.className = "modal-footer";
+
+      var closeButtonModal = document.createElement("button");
+      closeButtonModal.type = "button";
+      closeButtonModal.className = "btn btn-secondary";
+      closeButtonModal.setAttribute("data-dismiss", "modal");
+      closeButtonModal.textContent = "Close";
+
+      var copyCodeButton = document.createElement("button");
+      copyCodeButton.type = "button";
+      copyCodeButton.className = "btn btn-primary";
+      copyCodeButton.id = "copyCodeButton";
+      copyCodeButton.textContent = "Copy Code"
+
+      modalFooter.appendChild(closeButtonModal);
+      modalFooter.appendChild(copyCodeButton);
+      modalContent.appendChild(modalHeader);
+      modalContent.appendChild(modalBody);
+      modalContent.appendChild(modalFooter);
+      modalDialog.appendChild(modalContent);
+      modal.appendChild(modalDialog);
+
+      container.appendChild(modal);
+
+      document.getElementById("copyCodeButton").addEventListener("click", function () {
+        copyCodeToClipboard();
+      });
     });
   </script>
-  
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
 </body>
+
 </html>
