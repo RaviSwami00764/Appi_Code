@@ -6,11 +6,46 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
     integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+ 
+  <link rel="stylesheet" href="src/assets/CSS/scrollbar.css">
+  <link rel="stylesheet" href="src/assets/CSS/syntaxHighlighter.css">
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/addon/fold/foldcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/addon/fold/foldgutter.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/addon/fold/foldgutter.min.css">
+  <script src="/src/assets/JS/pixelCodePatterns.js" type="application/javascript"></script>
+
+
 
   <style>
     body {
       width: 100vw;
       overflow-x: hidden;
+    }
+
+    .custom-container {
+      position: absolute;
+      top: 52px;
+      left: 2px;
+      right: 2px;
+      bottom: 2px;
+      display: flex;
+      background-color: transparent;
+      border-radius: 15px;
+    }
+
+    horizontal-content {
+      position: relative;
+      flex-grow: 1;
+      padding: 10px;
+      width: 48%;
+      overflow-x: hidden;
+      margin: 5px;
+      margin-top: 10px;
+      border-radius: 15px;
+      background-color: #171717;
+      color: #fff;
     }
 
     .main-container {
@@ -42,10 +77,12 @@
     }
 
     .section-tab {
-      height: 270px;
+      height: 85vh;
       padding: 15px;
       box-sizing: border-box;
-      background-color: transparent;
+      background-color: #181818;
+      margin-bottom: 30px;
+      border-radius: 12px;
     }
 
     .section-content {
@@ -53,6 +90,15 @@
       height: 100%;
       border-radius: 12px;
       padding: 12px;
+    }
+    .code-content {
+      background-color: #181818;
+      height: 100%;
+      border-radius: 12px;
+      padding: 12px;
+      color: #fff;
+      overflow-y: scroll;
+      cursor: pointer;
     }
 
     /* Define a CSS class for the sliding effect */
@@ -97,8 +143,7 @@
   <div class="sticky-top mt-2" style="background-color: #fafafa;">
     <div class="horizontal-header row align-items-center">
       <div class="col-7 text-start">
-        <a href="#" class="nav-dashboard">Dashboard Designs</a>
-        <a href="#" class="nav-vertialnav">Navbar Designs</a>
+        <a href="/index.html" class="nav-dashboard">UIDFlex</a>
       </div>
       <div class="col-5 text-end">
 
@@ -114,55 +159,11 @@
     </div>
   </div>
 
+ <script src="src/assets/AppianCodeFiles/uiCodes.js"></script>
+ <script src="/src/assets/JS/syntaxHighlighter.js" type="application/javascript"></script>
 
   <script>
     // Your uiCodes array
-    var uiCodes = [
-      {
-        "imgPath": "/src/images/Project-TaskReport.png",
-        "imgWidth": "80%",
-        "imgHeight": "98%",
-        "bgColor": "#dfd8d2",
-        "code": "some code will be here 1......"
-      },
-      {
-        "imgPath": "/src/images/noteSection.png",
-        "imgWidth": "100%",
-        "imgHeight": "98%",
-        "bgColor": "#f8f9fc",
-        "code": "some code will be here 2......"
-      },
-      {
-        "imgPath": "/src/images/project-TaskDashboard.png",
-        "imgWidth": "40%",
-        "imgHeight": "90%",
-        "bgColor": "#dfd8d2",
-        "code": "some code will be here 3......"
-      },
-      {
-        "imgPath": "/src/images/project-timeline.png",
-        "imgWidth": "100%",
-        "imgHeight": "98%",
-        "bgColor": "#f7f7f7",
-        "code": "some code will be here 4......"
-      },
-      {
-        "imgPath": "/src/images/naviGation-01.png",
-        "imgWidth": "80%",
-        "imgHeight": "98%",
-        "bgColor": "#f6f6f6",
-        "code": "some code will be here 5......"
-      },
-      {
-        "imgPath": "/src/images/infoCard-01.png",
-        "imgWidth": "60%",
-        "imgHeight": "80%",
-        "bgColor": "#000",
-        "code": "some code will be here 6......"
-      }
-      // Add more elements as needed
-    ];
-
     function copyCodeToClipboard() {
       // Select the code in the modal
       var codeElement = document.querySelector(".modal-body code");
@@ -184,40 +185,63 @@
 
     var container = document.getElementById("uiCodeContainer");
 
-    uiCodes.forEach(function (item) {
+    uiCodes.forEach(function (item, index) {
       var colDiv = document.createElement("div");
-      colDiv.className = "col-3 section-tab";
+      colDiv.className = "col-12 section-tab row";
 
       var sectionContentDiv = document.createElement("div");
-      sectionContentDiv.className = "section-content d-flex align-items-center justify-content-center slide-on-hover";
+      sectionContentDiv.className = "section-content d-flex align-items-center justify-content-center slide-on-hover col-6";
       sectionContentDiv.style.backgroundColor = `${item.bgColor}`;
 
+      var codeContentDiv = document.createElement("div");
+      codeContentDiv.className = "code-content col-6";
+      codeContentDiv.innerHTML = `<pre>${item.code}</pre>`;
+
+
+      codeContentDiv.addEventListener("click", function () {
+        // Function to copy the content of codeContentDiv to the clipboard
+        var codeText = codeContentDiv.querySelector("pre").textContent;
+        var tempTextArea = document.createElement("textarea");
+        tempTextArea.value = codeText;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempTextArea);
+        alert("code copied");
+      });
+
+
+      var popupWindow = document.createElement("div");
+      popupWindow.className = "section-content d-flex align-items-center justify-content-center slide-on-hover";
+      popupWindow.style.backgroundColor = `${item.bgColor}`;
 
       var imgWrapper = document.createElement("div");
       imgWrapper.className = "image-wrapper";
       imgWrapper.style.backgroundImage = `url(${item.imgPath})`;
 
+      var popupImgWrapper = document.createElement("div"); // Create a new popupImgWrapper for each item
+      popupImgWrapper.className = "image-wrapper";
+      popupImgWrapper.style.backgroundImage = `url(${item.imgPath})`;
+
+      popupWindow.appendChild(popupImgWrapper);
+
       sectionContentDiv.appendChild(imgWrapper);
-
-      // img.src = item.imgPath;
-      // img.alt = "";
-      // img.style.width = item.imgWidth;
-      // img.style.height = item.imgHeight;
-      // img.style.display = "block";
+      // popupWindow.appendChild(popupImgWrapper);
       sectionContentDiv.setAttribute("data-toggle", "modal");
-      sectionContentDiv.setAttribute("data-target", "#codeModal");
-
-      // sectionContentDiv.appendChild(img);
+      sectionContentDiv.setAttribute("data-target", `#codeModal${index}`);
+      
       colDiv.appendChild(sectionContentDiv);
+      colDiv.appendChild(codeContentDiv);
+     
       container.appendChild(colDiv);
 
       // Create the modal for displaying code
       var modal = document.createElement("div");
       modal.className = "modal fade";
-      modal.id = "codeModal";
+      modal.id = `codeModal${index}`;
       modal.tabIndex = -1;
       modal.role = "dialog";
-      modal.setAttribute("aria-labelledby", "codeModalLabel");
+      modal.setAttribute("aria-labelledby", `codeModalLabel${index}`);
       modal.setAttribute("aria-hidden", "true");
 
       var modalDialog = document.createElement("div");
@@ -232,8 +256,8 @@
 
       var modalTitle = document.createElement("h5");
       modalTitle.className = "modal-title";
-      modalTitle.id = "codeModalLabel";
-      modalTitle.textContent = "Code";
+      modalTitle.id = `codeModalLabel${index}`;
+      modalTitle.textContent = "UIDFlex";
 
       var closeButton = document.createElement("button");
       closeButton.type = "button";
@@ -251,12 +275,7 @@
 
       var modalBody = document.createElement("div");
       modalBody.className = "modal-body";
-
-      var codePre = document.createElement("pre");
-      var codeCode = document.createElement("code");
-      codeCode.textContent = item.code;
-      codePre.appendChild(codeCode);
-      modalBody.appendChild(codePre);
+      modalBody.appendChild(popupWindow);
 
       var modalFooter = document.createElement("div");
       modalFooter.className = "modal-footer";
@@ -274,7 +293,6 @@
       copyCodeButton.textContent = "Copy Code"
 
       modalFooter.appendChild(closeButtonModal);
-      modalFooter.appendChild(copyCodeButton);
       modalContent.appendChild(modalHeader);
       modalContent.appendChild(modalBody);
       modalContent.appendChild(modalFooter);
@@ -282,15 +300,14 @@
       modal.appendChild(modalDialog);
 
       container.appendChild(modal);
-
-      document.getElementById("copyCodeButton").addEventListener("click", function () {
-        copyCodeToClipboard();
-      });
     });
+    syntaxHighlightsUIDFlex();
+
   </script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 
 </body>

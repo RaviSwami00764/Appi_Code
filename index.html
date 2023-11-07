@@ -173,14 +173,14 @@
 <body>
     <div id="horizontal-navbar">
         <div class="text-end">
-            <button class="btn btn-primary" id="getCDTInfo"><a href="codeMirror.html" style="text-decoration: none; size: 15px; color: white;">Templopedia</a></button>
-            <button class="btn btn-primary" id="getCDTInfo">Get CDT Info</button>
-            <button class="btn btn-primary" id="generateGridFieldCDT">Grid Field</button>
-            <button class="btn btn-primary" id="generateGridFieldRecord">Grid Field (Record)</button>
-            <button class="btn btn-primary" id="generateRecordCast">Record Cast</button>
-            <button class="btn btn-primary" id="getViewDetails">Get Record Data</button>    
-            <button class="btn btn-primary" id="generateGridLayoutForCDT">Grid Layout</button>
-            <button class="btn btn-secondary" id="copyButton"><i class="fa-solid fa-copy" style="color: #171717;"></i>
+            <button class="btn btn-outline-secondary" id="getCDTInfo"><a href="codeMirror.html" style="text-decoration: none; size: 15px; color: white;">Templopedia</a></button>
+            <button class="btn btn-outline-secondary" id="getCDTInfo">Get CDT Info</button>
+            <button class="btn btn-outline-secondary" id="generateGridFieldCDT">Grid Field</button>
+            <button class="btn btn-outline-secondary" id="generateGridFieldRecord">Grid Field (Record)</button>
+            <button class="btn btn-outline-secondary" id="generateRecordCast">Record Cast</button>
+            <button class="btn btn-outline-secondary" id="getViewDetails">Get Record Data</button>    
+            <button class="btn btn-outline-secondary" id="generateGridLayoutForCDT">Grid Layout</button>
+            <button class="btn btn-primary" id="copyButton"><i class="fa-solid fa-copy" style="color: #fff;"></i>
                 Copy Code</button>
         </div>
     
@@ -189,27 +189,29 @@
     <div class="custom-container">
         <div class="vertical-navbar">
             <!-- Vertical Navbar content -->
-            <div class="rule-input" id="rule-inputs"
-                style="border-top: 3px solid #281616; border-radius: 12px;">
-                <input type="text" class="form-control" id="cdtName" name="cdtName" placeholder="CDT Name">
-                <input type="text" class="form-control" id="checkIsNullFun" name="checkIsNullFun"
-                    placeholder="CheckIsNull Function">
-                <input type="text" class="form-control" id="appPrefix" name="appPrefix" placeholder="App Prefix">
-                <input type="text" class="form-control" id="gridLayoutData" name="gridLayoutData" placeholder="Data">
-                <input type="text" class="form-control" id="entityValue" name="entityValue"
-                    placeholder="Data Store Entity">
-            </div>
             <div id="vertical-nav">
 
             </div>
         </div>
         <div class="horizontal-content" id="content1">
             <textarea id="codeEditor"></textarea>
+            <div class="rule-input row" id="rule-inputs"
+                style="border-top: 3px solid #281616; border-radius: 12px; margin-top: 4px;">
+                <div class="col-6"><input type="text" class="form-control" id="cdtName" name="cdtName" placeholder="CDT Name"></div>
+                <div class="col-6"><input type="text" class="form-control" id="checkIsNullFun" name="checkIsNullFun"
+                    placeholder="CheckIsNull Function"></div>
+                <div class="col-4"><input type="text" class="form-control" id="appPrefix" name="appPrefix" placeholder="App Prefix"></div>
+                <div class="col-4"><input type="text" class="form-control" id="gridLayoutData" name="gridLayoutData" placeholder="Data"></div>
+                <div class="col-4"><input type="text" class="form-control" id="entityValue" name="entityValue"
+                    placeholder="Data Store Entity"></div>
+            </div>
         </div>
         <!-- <div class="resizable-divider" id="divider"></div> -->
         <div class="horizontal-content" id="content2">
             
         </div>
+       
+        
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/javascript/javascript.min.js"></script>
