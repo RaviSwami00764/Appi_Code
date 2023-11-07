@@ -3420,9 +3420,214 @@ var uiCodes = [
     )`
   },
   {
-    "imgPath": "/src/images/infoCard-01.png",
+    "imgPath": "/src/images/kpi_cards_01.png",
     "bgColor": "#000",
-    "code": "some code will be here 6......"
+    "code": `a!localVariables(
+      local!bgColor: "#000000",
+      local!kpiData: {
+        a!map(
+          id: 1,
+          value: 2385.76,
+          label: "Income",
+          tagIcon: "line-chart",
+          unit: "K",
+          icon: "usd",
+          startDate: today() - 30,
+          endDate: today() + 12
+        ),
+        a!map(
+          id: 2,
+          value: 129,
+          label: "Order",
+          tagIcon: "bullseye-alt",
+          unit: "",
+          icon: "",
+          startDate: today() - 6,
+          endDate: today() + 21
+        ),
+        a!map(
+          id: 3,
+          value: 1376,
+          label: "total sales",
+          tagIcon: "location-arrow",
+          unit: "",
+          icon: "",
+          startDate: today() - 10,
+          endDate: today() + 7
+        )
+      },
+      {
+        a!cardLayout(
+          shape: "ROUNDED",
+          padding: "STANDARD",
+          showBorder: false,
+          style: local!bgColor,
+          contents:{
+            a!columnsLayout(
+              columns: a!forEach(
+                items: local!kpiData,
+                expression: {
+                  a!localVariables(
+                    local!total: tointeger(todate(index(fv!item,"endDate",{}))-todate(index(fv!item,"startDate",{}))),
+                    local!current:  tointeger(todate(index(fv!item,"endDate",{}))-today()),
+                    local!percent: if(
+                      local!current<0,
+                      100,
+                      (100*local!current)/local!total
+                    ),
+                    local!graphLine: a!forEach(
+                      items: enumerate(4)+1,
+                      expression:60-(local!percent-25*fv!item),
+                    ),
+                    local!graphColors: a!forEach(
+                      items: local!graphLine,
+                      expression: a!localVariables(
+                        local!hexCode: "#000000",
+                        local!percent: fv!item,
+    
+                        local!r: hex2dec(mid(local!hexCode,1,2)),
+                        local!g: hex2dec(mid(local!hexCode,3,2)),
+                        local!b: hex2dec(mid(local!hexCode,5,2)),
+    
+                        local!newR: tointeger(local!r+((255-local!r)*local!percent/100)),
+                        local!newG: tointeger(local!g+((255-local!g)*local!percent/100)),
+                        local!newB: tointeger(local!b+((255-local!b)*local!percent/100)),
+    
+    
+                        local!lightHex: concat("#",dec2hex(local!newR),dec2hex(local!newG),dec2hex(local!newB),"bbbbbb"),
+                        if(
+                          fv!item>100,
+                          "#f2f2f2",
+                          if(
+                            fv!item<60,
+                            local!bgColor,
+                            left(local!lightHex,7)
+                          )
+                        )
+                      )
+                    ),
+                    local!startDay: text(todate(index(fv!item,"startDate",{})),"mmm dd"),
+                    local!endDay: text(todate(index(fv!item,"endDate",{})),"mmm dd"),
+                    a!columnLayout(
+                      contents: {
+                        a!paragraphField(
+                          value: local!graphLine
+                        ),
+                        a!cardLayout(
+                          shape: "ROUNDED",
+                          showBorder: false,
+                          padding: "STANDARD",
+                          contents: {
+                            a!sideBySideLayout(
+                              alignVertical: "MIDDLE",
+                              items: {
+                                a!sideBySideItem(
+                                  item: a!richTextDisplayField(
+                                    value: {
+                                      a!richTextItem(
+                                        size: "MEDIUM_PLUS",
+                                        text: { upper(index(fv!item, "label", {})) }
+                                      )
+                                    }
+                                  ),
+                                  width: "MINIMIZE"
+                                ),
+                                a!sideBySideItem(
+                                  item: a!richTextDisplayField(
+                                    align: "RIGHT",
+                                    value: {
+                                      a!richTextIcon(
+                                        icon: index(fv!item, "tagIcon", {}),
+                                        size: "MEDIUM_PLUS",
+                                      )
+                                    }
+                                  )
+                                )
+                              }
+                            ),
+                            a!richTextDisplayField(
+                              value: {
+                                a!richTextIcon(
+                                  size: "MEDIUM",
+                                  icon: { index(fv!item, "icon", {}) }
+                                ),
+                                a!richTextItem(
+                                  size: "LARGE",
+                                  style: "STRONG",
+                                  text: {
+                                    if(
+                                      index(fv!item, "value", {})-tointeger(index(fv!item, "value", {}))=0,
+                                      index(split(fixed(index(fv!item, "value", {})),"."),1,null()),
+                                      fixed(index(fv!item, "value", {})),
+                                    ),
+                                    index(fv!item, "unit", {})
+                                  }
+                                )
+                              }
+                            ),
+                            a!tagField(
+                              marginAbove: "MORE",
+                              align: "CENTER",
+                              tags:{
+                                a!tagItem(
+                                  backgroundColor: local!bgColor,
+                                  text:{
+                                    fixed(local!percent)&"%"
+                                  }
+                                )
+                              }
+                            ),
+                            a!columnsLayout(
+                              spacing: "DENSE",
+                              columns: {
+                                a!forEach(
+                                  items: local!graphColors,
+                                  expression: a!columnLayout(
+                                    contents: {
+                                      a!sectionLayout(
+                                        dividerColor: fv!item,
+                                        dividerWeight: "THICK",
+                                        divider: "ABOVE",
+                                        contents: {
+                                          a!richTextDisplayField(
+                                            align: if(
+                                              fv!isLast,
+                                              "RIGHT",
+                                              "LEFT"
+                                            ),
+                                            value: a!richTextItem(
+                                              style: "STRONG",
+                                              size: "MEDIUM",
+                                              text: if(
+                                                fv!isFirst,
+                                                local!startDay,
+                                                if(
+                                                  fv!isLast,
+                                                  local!endDay,
+                                                  ""
+                                                )
+                                              )
+                                            )
+                                          )
+                                        }
+                                      )
+                                    }
+                                  )
+                                )
+                              }
+                            )
+                          }
+                        )
+                      }
+                    )
+                  )
+                }
+              ),
+            ),
+          }
+        ),
+      }
+    )`
   },
   
   
