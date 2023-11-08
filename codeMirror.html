@@ -207,7 +207,42 @@
         tempTextArea.select();
         document.execCommand("copy");
         document.body.removeChild(tempTextArea);
-        alert("code copied");
+        var copyMessage = document.createElement("div");
+        copyMessage.style.position = "fixed";
+        copyMessage.style.top = "50%";
+        copyMessage.style.left = "50%";
+        copyMessage.style.transform = "translate(-50%, -50%)";
+        copyMessage.style.background = "lightgreen";
+        copyMessage.style.padding = "10px";
+        copyMessage.style.borderRadius = "5px";
+        copyMessage.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.5)";
+
+        var progressBar = document.createElement("div");
+        progressBar.style.width = "0%";
+        progressBar.style.height = "20px";
+        progressBar.style.background = "green";
+        progressBar.style.borderRadius = "5px";
+
+        var messageText = document.createElement("div");
+        messageText.innerText = "Copying code...";
+
+        copyMessage.appendChild(messageText);
+        copyMessage.appendChild(progressBar);
+        document.body.appendChild(copyMessage);
+
+        // Simulate a progress bar fill effect (you can adjust the speed)
+        var progress = 0;
+        var interval = setInterval(function () {
+            progress += 1;
+            progressBar.style.width = progress + "%";
+            if (progress >= 100) {
+              clearInterval(interval);
+              messageText.innerText = "Code copied successfully!";
+              setTimeout(function () {
+                  document.body.removeChild(copyMessage);
+              }, 1000); // Display the success message for 1 second
+            }
+        }, 20); 
       });
 
 

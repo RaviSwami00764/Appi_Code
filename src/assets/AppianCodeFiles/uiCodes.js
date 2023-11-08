@@ -1492,6 +1492,50 @@ var uiCodes = [
           value: 7
         )
       },
+      local!data:{
+        a!map(
+          id:1,
+          day:"sun",
+          weekday:1,
+          value:5,
+        ),
+        a!map(
+          id:2,
+          day:"mon",
+          weekday:2,
+          value:11,
+        ),
+        a!map(
+          id:3,
+          day:"tue",
+          weekday:3,
+          value:22,
+        ),
+        a!map(
+          id:4,
+          day:"wed",
+          weekday:4,
+          value:14,
+        ),
+        a!map(
+          id:5,
+          day:"thu",
+          weekday:5,
+          value:16,
+        ),
+        a!map(
+          id:6,
+          day:"fri",
+          weekday:22,
+          value:5,
+        ),
+        a!map(
+          id:7,
+          day:"sat",
+          weekday:7,
+          value:18,
+        )
+      },
       {
         a!cardLayout(
           style: "#dfd8d2",
@@ -1601,400 +1645,78 @@ var uiCodes = [
                         a!columnsLayout(
                           alignVertical: "BOTTOM",
                           columns:{  
-                            a!columnLayout(
-                              width: "EXTRA_NARROW",
-                              contents:{
-                                a!columnsLayout(
-                                  columns:{
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "NARROW",
-                                      contents:{
-                                        a!cardLayout(
-                                          shape: "ROUNDED",
-                                          style: "#000",
-                                          contents:{
-                                            a!richTextDisplayField(
-                                              tooltip: "4",
-                                              value:{
-                                                a!richTextItem(
-                                                  text: {  
-                                                    char(10),
-                                                    char(10),
-                                                    char(10),
-                                                    char(10),   
-                                                  }
-                                                ),
-                                              }
+                            a!forEach(
+                              items: local!data,
+                              expression: a!columnLayout(
+                                width: "",
+                                contents:{
+                                  a!columnsLayout(
+                                    columns:{
+                                      a!columnLayout(
+                                        width: "2X",
+                                        contents:{
+                                        }
+                                      ),
+                                      a!columnLayout(
+                                        width: "NARROW",
+                                        contents:{
+                                          a!richTextDisplayField(
+                                            align: "CENTER",
+                                            value: a!richTextItem(
+                                              text: index(fv!item,"value",null()),
+                                              style: if(
+                                                weekday(today()) = index(fv!item,"weekday",null()),
+                                                "STRONG",
+                                                ""
+                                              )
                                             )
+                                          ),
+                                          a!cardLayout(
+                                            shape: "ROUNDED",
+                                            style: if(
+                                              weekday(today()) < index(fv!item,"weekday",null()),
+                                              "#dfd8d2",
+                                              "#dfd"
+                                            ),
+                                            contents:{
+                                              a!richTextDisplayField(
+                                                value:{
+                                                  a!richTextItem(
+                                                    text: {  
+                                                      a!forEach(
+                                                        items: enumerate(tointeger(index(fv!item,"value",null())/2)),
+                                                        expression: char(10)
+                                                      )  
+                                                    }
+                                                  ),
+                                                }
+                                              )
     
-                                          }
-                                        ),
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    )  
-    
-                                  }
-                                ),
-                                a!tagField(
-                                  align: "END",
-                                  tags:{
-                                    a!tagItem(
-                                      backgroundColor: "#dfd8d2",
-                                      text:{
-                                        "Mo"
-                                      }
+                                            }
+                                          ),
+                                        }
+                                      ),
+                                      a!columnLayout(
+                                        width: "2X",
+                                        contents:{
+                                        }
+                                      )  
+                                    }
+                                  ),
+                                  a!richTextDisplayField(
+                                    align: "CENTER",
+                                    value: a!richTextItem(
+                                      text: index(fv!item,"day",null()),
+                                      style: if(
+                                        weekday(today()) = index(fv!item,"weekday",null()),
+                                        "STRONG",
+                                        ""
+                                      )
                                     )
-                                  }
-                                )  
-                              }
-                            ), 
-                            a!columnLayout(
-                              width: "EXTRA_NARROW",
-                              contents:{
-                                a!columnsLayout(
-                                  columns:{
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "NARROW",
-                                      contents:{
-                                        a!cardLayout(
-                                          shape: "ROUNDED",
-                                          style: "#000",
-                                          contents:{
-                                            a!richTextDisplayField(
-                                              value:{
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),  
-                                                char(10),
-                                                char(10),
-                                                char(10), 
-                                              }
-                                            )
-    
-                                          }
-                                        ),
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    )  
-    
-                                  }
-                                ),
-                                a!tagField(
-                                  align: "END",
-                                  tags:{
-                                    a!tagItem(
-                                      backgroundColor: "#dfd8d2",
-                                      text:{
-                                        "Tu"
-                                      }
-                                    )
-                                  }
-                                )  
-                              }
-                            ), 
-                            a!columnLayout(
-                              width: "EXTRA_NARROW",
-                              contents:{
-                                a!columnsLayout(
-                                  columns:{
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "NARROW",
-                                      contents:{
-                                        a!cardLayout(
-                                          shape: "ROUNDED",
-                                          style: "#000",
-                                          contents:{
-                                            a!richTextDisplayField(
-                                              value:{
-                                                char(10),
-                                                char(10),
-                                                char(10), 
-                                              }
-                                            )
-    
-                                          }
-                                        ),
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    )  
-    
-                                  }
-                                ),
-                                a!tagField(
-                                  align: "END",
-                                  tags:{
-                                    a!tagItem(
-                                      backgroundColor: "#dfd8d2",
-                                      text:{
-                                        "We"
-                                      }
-                                    )
-                                  }
-                                )  
-                              }
-                            ), 
-                            a!columnLayout(
-                              width: "EXTRA_NARROW",
-                              contents:{
-                                a!columnsLayout(
-                                  columns:{
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "NARROW",
-                                      contents:{
-                                        a!cardLayout(
-                                          shape: "ROUNDED",
-                                          style: "#000",
-                                          contents:{
-                                            a!richTextDisplayField(
-                                              value:{
-                                                char(10),
-                                                char(10),
-                                              }
-                                            )
-    
-                                          }
-                                        ),
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    )  
-    
-                                  }
-                                ),
-                                a!tagField(
-                                  align: "END",
-                                  tags:{
-                                    a!tagItem(
-                                      backgroundColor: "#dfd8d2",
-                                      text:{
-                                        "Th"
-                                      }
-                                    )
-                                  }
-                                )  
-                              }
-                            ), 
-                            a!columnLayout(
-                              width: "EXTRA_NARROW",
-                              contents:{
-                                a!columnsLayout(
-                                  columns:{
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "NARROW",
-                                      contents:{
-                                        a!cardLayout(
-                                          shape: "ROUNDED",
-                                          style: "#dfd8d2",
-                                          contents:{
-                                            a!richTextDisplayField(
-                                              value:{
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                              }
-                                            )
-    
-                                          }
-                                        ),
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    )  
-    
-                                  }
-                                ),
-                                a!tagField(
-                                  align: "END",
-                                  tags:{
-                                    a!tagItem(
-                                      backgroundColor: "#dfd8d2",
-                                      text:{
-                                        "Fr"
-                                      }
-                                    )
-                                  }
-                                )  
-                              }
-                            ), 
-                            a!columnLayout(
-                              width: "EXTRA_NARROW",
-                              contents:{
-                                a!columnsLayout(
-                                  columns:{
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "NARROW",
-                                      contents:{
-                                        a!cardLayout(
-                                          shape: "ROUNDED",
-                                          style: "#dfd8d2",
-                                          contents:{
-                                            a!richTextDisplayField(
-                                              value:{
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                              }
-                                            )
-    
-                                          }
-                                        ),
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    )  
-    
-                                  }
-                                ),
-                                a!tagField(
-                                  align: "END",
-                                  tags:{
-                                    a!tagItem(
-                                      backgroundColor: "#dfd8d2",
-                                      text:{
-                                        "Sa"
-                                      }
-                                    )
-                                  }
-                                )  
-                              }
-                            ), 
-                            a!columnLayout(
-                              width: "EXTRA_NARROW",
-                              contents:{
-                                a!columnsLayout(
-                                  columns:{
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "NARROW",
-                                      contents:{
-                                        a!cardLayout(
-                                          shape: "ROUNDED",
-                                          style: "#dfd8d2",
-                                          contents:{
-                                            a!richTextDisplayField(
-                                              value:{
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                                char(10),
-                                              }
-                                            )
-    
-                                          }
-                                        ),
-                                      }
-                                    ),
-                                    a!columnLayout(
-                                      width: "2X",
-                                      contents:{
-    
-                                      }
-                                    )  
-    
-                                  }
-                                ),
-                                a!tagField(
-                                  align: "END",
-                                  tags:{
-                                    a!tagItem(
-                                      backgroundColor: "#dfd8d2",
-                                      text:{
-                                        "Su"
-                                      }
-                                    )
-                                  }
-                                )  
-                              }
-                            ), 
+                                  )
+                                }
+                              ), 
+                            )
                           }
                         )  
                       }
@@ -3510,9 +3232,6 @@ var uiCodes = [
                     local!endDay: text(todate(index(fv!item,"endDate",{})),"mmm dd"),
                     a!columnLayout(
                       contents: {
-                        a!paragraphField(
-                          value: local!graphLine
-                        ),
                         a!cardLayout(
                           shape: "ROUNDED",
                           showBorder: false,
@@ -3629,6 +3348,347 @@ var uiCodes = [
       }
     )`
   },
+  {
+    "imgPath": "/src/images/case_dashboard.png",
+    "bgColor": "#e5e7e9",
+    "code": `{
+      a!columnsLayout(
+        columns: {
+          a!columnLayout(
+            contents: {
+              a!cardLayout(
+                showBorder: false,
+                shape: "ROUNDED",
+                padding: "STANDARD",
+                style: "#e5e7e9",
+                contents: {
+                  a!columnsLayout(
+                    columns: {
+                      a!columnLayout(
+                        contents: {
+                          a!cardLayout(
+                            height: "MEDIUM",
+                            shape: "ROUNDED",
+                            showBorder: false,
+                            padding: "STANDARD",
+                            style: "#97b9ff",
+                            contents: {
+                              a!sideBySideLayout(
+                                items: {
+                                  a!sideBySideItem(
+                                    item: a!stampField(
+                                      backgroundColor: "#fff",
+                                      contentColor: "#000",
+                                      size: "SMALL",
+                                      icon: { "spa" }
+                                    ),
+                                    width: "MINIMIZE"
+                                  ),
+                                  a!sideBySideItem(
+                                    item: a!richTextDisplayField(
+                                      align: "RIGHT",
+                                      value: {
+                                        a!richTextIcon(icon: { "ellipsis-h" }, size: "MEDIUM")
+                                      }
+                                    )
+                                  )
+                                }
+                              ),
+                              a!richTextDisplayField(
+                                marginAbove: "MORE",
+                                value: {
+                                  a!richTextItem(
+                                    size: "MEDIUM_PLUS",
+                                    style: "STRONG",
+                                    color: "#191f2c",
+                                    text: { "Active Cases",  }
+                                  ),
+                                  char(10),
+                                  a!richTextItem(
+                                    color: "#647baa",
+                                    text: {
+                                      "7 new cases this month, with a total of 23 active cases."
+                                    }
+                                  )
+                                }
+                              )
+                            }
+                          )
+                        }
+                      ),
+                      a!columnLayout(
+                        contents: {
+                          a!cardLayout(
+                            shape: "ROUNDED",
+                            showBorder: false,
+                            padding: "STANDARD",
+                            height: "MEDIUM",
+                            contents: {
+                              a!sideBySideLayout(
+                                items: {
+                                  a!sideBySideItem(
+                                    item: a!stampField(
+                                      backgroundColor: "#e1ff01",
+                                      contentColor: "#181818",
+                                      size: "SMALL",
+                                      icon: { "moon-o" }
+                                    ),
+                                    width: "MINIMIZE"
+                                  ),
+                                  a!sideBySideItem(
+                                    item: a!richTextDisplayField(
+                                      align: "RIGHT",
+                                      value: {
+                                        a!richTextIcon(icon: { "ellipsis-h" }, size: "MEDIUM")
+                                      }
+                                    )
+                                  )
+                                }
+                              ),
+                              a!richTextDisplayField(
+                                marginAbove: "MORE",
+                                value: {
+                                  a!richTextItem(
+                                    size: "MEDIUM_PLUS",
+                                    style: "STRONG",
+                                    text: { "Closed Cases",  }
+                                  ),
+                                  char(10),
+                                  a!richTextItem(
+                                    color: "#bbb",
+                                    text: {
+                                      "This month, 3 cases were closed, bringing the total closed cases to 46."
+                                    }
+                                  )
+                                }
+                              )
+                            }
+                          )
+                        }
+                      ),
+                      
+                    }
+                  ),
+                  a!cardLayout(
+                    shape: "ROUNDED",
+                    showBorder: false,
+                    marginAbove: "STANDARD",
+                    padding: "EVEN_LESS",
+                    contents: {
+                      a!columnsLayout(
+                        alignVertical: "MIDDLE",
+                        columns: {
+                          a!columnLayout(
+                            width: "EXTRA_NARROW",
+                            contents: {
+                              a!stampField(
+                                backgroundColor: "#e8ebed",
+                                contentColor: "#181818",
+                                size: "SMALL",
+                                align: "START",
+                                icon: { "plus-circle" }
+                              ),
+                              
+                            }
+                          ),
+                          a!columnLayout(
+                            contents: {
+                              a!richTextDisplayField(
+                                value: {
+                                  a!richTextItem(
+                                    style: "STRONG",
+                                    text: { "You created 9 cases" }
+                                  ),
+                                  char(10),
+                                  a!richTextItem(
+                                    color: "#bbb",
+                                    text: { "13 cases are approved" }
+                                  )
+                                }
+                              )
+                            }
+                          ),
+                          a!columnLayout(
+                            width: "NARROW",
+                            contents: {
+                              a!cardLayout(
+                                shape: "ROUNDED",
+                                showBorder: false,
+                                style: "#181818",
+                                contents: {
+                                  a!richTextDisplayField(
+                                    align: "CENTER",
+                                    value: {
+                                      a!richTextItem(style: "STRONG", text: { "See All" })
+                                    }
+                                  )
+                                }
+                              )
+                            }
+                          )
+                        }
+                      )
+                    }
+                  ),
+                  a!cardLayout(
+                    shape: "ROUNDED",
+                    showBorder: false,
+                    padding: "LESS",
+                    marginAbove: "STANDARD",
+                    style: "#f3f5f6",
+                    contents:{
+                      a!gridField(
+                        data: {}
+                      )
+                    }
+                  )
+                }
+              )
+            }
+          ),
+          a!columnLayout(contents: {})
+        }
+      ),
+      
+    }`
+  },
+  {
+    "imgPath": "/src/images/project-timeline_02.png",
+    "bgColor": "#fff",
+    "code": `a!localVariables(
+      local!projectTimeLine: {
+        a!map(
+          id:1,
+          stage: "stage1",
+          color:"#a798cd",
+          timeSpent: 46.8,  
+        ),
+        a!map(
+          id:2,
+          stage: "stage2",
+          color:"#b8f273",
+          timeSpent: 8.64,  
+        ),
+        a!map(
+          id:2,
+          stage: "stage3",
+          color:"#eed0b7",
+          timeSpent: 16.56,  
+        ),
+      },
+      local!totalTimeSpent:sum(index(local!projectTimeLine,"timeSpent",{})),
+      {
+        a!cardLayout(
+          shape: "ROUNDED",
+          showBorder: false,
+          padding: "STANDARD",
+          contents:{
+            a!columnsLayout(
+              alignVertical: "BOTTOM",
+              columns:{
+                a!columnLayout(
+                  width: "NARROW",
+                  contents:{
+                    a!richTextDisplayField(
+                      value:{
+                        a!richTextItem(
+                          size: "MEDIUM",
+                          style: "STRONG",
+                          color: "#656573",
+                          text:{
+                            "Project Time",
+    
+                          }
+                        ),
+                        char(10),
+                        a!richTextItem(
+                          size: "LARGE_PLUS",
+                          color: "#323244",
+                          style: "STRONG",
+                          text:{
+                            local!totalTimeSpent,
+                            "h"
+    
+                          }
+                        )  
+    
+                      }
+                    )
+    
+                  }
+                ),
+                a!columnLayout(
+                  contents:{
+                    a!columnsLayout(
+                      alignVertical: "BOTTOM",
+                      spacing: "DENSE",
+                      columns:{
+                        a!foreach(
+                          items: local!projectTimeLine,
+                          expression: a!columnLayout(
+                            width: tointeger(index(fv!item,"timeSpent")*10/local!totalTimeSpent)&"X",
+                            contents:{
+                              a!richTextDisplayField(
+                                value: a!richTextItem(
+                                  style: "STRONG",
+                                  text: {
+                                    index(fv!item,"timeSpent")*100/local!totalTimeSpent,
+                                    "%",
+                                    char(10),
+                                    a!richTextItem(
+                                      text: a!forEach(
+                                        items: enumerate(tointeger(index(fv!item,"timeSpent")*4/local!totalTimeSpent)),
+                                        expression: "."&char(10)
+                                      ),
+                                      color: "#bbb"
+                                    )
+                                  }
+                                )
+                              ),
+                              a!cardLayout(
+                                shape: "ROUNDED",
+                                showBorder: false,
+                                style: index(fv!item,"color",null()),
+                                padding: "LESS",
+                                contents:{
+                                  
+                                }
+                              ),
+                              a!richTextDisplayField(
+                                value: a!richTextItem(
+                                  style: "",
+                                  text: {
+                                    a!richTextItem(
+                                      text: index(fv!item,"stage"),
+                                      style: "STRONG",
+                                    ),
+                                    " (",
+                                    a!richTextItem(
+                                      text: {
+                                        index(fv!item,"timeSpent"),
+                                        "h"
+                                      },
+                                      color: "#bbb",
+                                      style: "PLAIN"
+                                    ),
+                                    ")"
+                                  }
+                                )
+                              ),
+                            }
+                          )
+                        )
+                      }
+                    )
+                  }
+                )  
+              }
+            )
+          }
+        )
+      }
+    )`
+  }
   
   
   // Add more elements as needed
