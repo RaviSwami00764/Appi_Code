@@ -1,93 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
- <!-- CodeMirror Styles and Core Library -->
-<!-- CodeMirror Styles and Core Library -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 20px;
+            position: relative;
+            cursor: pointer;
+        }
 
-<!-- CodeMirror Autocomplete Extension -->
-<script src="/src/codemirror/codemirror-5.65.15/addon/fold/foldcode.js"></script>
-<script src="/src/codemirror/codemirror-5.65.15/addon/fold/foldgutter.js"></script>
+        #circle1 {
+            background-color: #3498db;
+        }
 
-<style>
-  table {
-      border-collapse: collapse;
-      width: 100%;
-  }
-  th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-  }
-  th {
-      background-color: #f2f2f2;
-  }
-</style>
+        #circle2 {
+            background-color: #2ecc71;
+            width: 120px;
+            height: 120px;
+        }
+
+        #circle3 {
+            background-color: #e74c3c;
+            width: 80px;
+            height: 80px;
+        }
+
+        #circle4 {
+            background-color: #f39c12;
+            width: 150px;
+            height: 150px;
+        }
+
+        .circle-text {
+            display: none;
+            position: absolute;
+            bottom: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        .circle:hover .circle-text {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-  <div>
-    <button id="downloadButton">Download JSON</button>
-    <input type="file" id="uploadInput" accept=".json">
-</div>
-<div id="editor">
-    <!-- Your JSON data will be displayed here -->
-</div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const downloadButton = document.getElementById("downloadButton");
-    const uploadInput = document.getElementById("uploadInput");
-    const editor = document.getElementById("editor");
+    <div id="circle1" class="circle">
+        <div class="circle-text">
+            <h5>Circle 1</h5>
+            <p>Description for Circle 1</p>
+        </div>
+    </div>
 
-    // Function to update the editor's content with JSON data
-    function updateEditor(content) {
-        editor.textContent = JSON.stringify(content, null, 2);
-    }
+    <div id="circle2" class="circle">
+        <div class="circle-text">
+            <h5>Circle 2</h5>
+            <p>Description for Circle 2</p>
+        </div>
+    </div>
 
-    // Function to save the JSON data to a file
-    function downloadJSON() {
-        const data = JSON.stringify(pixelGhPatternsCode, null, 2);
-        const blob = new Blob([data], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
+    <div id="circle3" class="circle">
+        <div class="circle-text">
+            <h5>Circle 3</h5>
+            <p>Description for Circle 3</p>
+        </div>
+    </div>
 
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "custom_patterns.json";
-        a.click();
+    <div id="circle4" class="circle">
+        <div class="circle-text">
+            <h5>Circle 4</h5>
+            <p>Description for Circle 4</p>
+        </div>
+    </div>
 
-        URL.revokeObjectURL(url);
-    }
-
-    // Function to handle file upload
-    function handleFileUpload(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                try {
-                    const uploadedData = JSON.parse(e.target.result);
-                    pixelGhPatternsCode = uploadedData;
-                    updateEditor(pixelGhPatternsCode);
-                } catch (error) {
-                    alert("Invalid JSON file.");
-                }
-            };
-
-            reader.readAsText(file);
-        }
-    }
-
-    // Event listeners
-    downloadButton.addEventListener("click", downloadJSON);
-    uploadInput.addEventListener("change", handleFileUpload);
-
-    // Initialize the editor with the initial data
-    updateEditor(pixelGhPatternsCode);
-});
-
-</script>
-  
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

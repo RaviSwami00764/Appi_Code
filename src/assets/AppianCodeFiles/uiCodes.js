@@ -3688,6 +3688,1280 @@ var uiCodes = [
         )
       }
     )`
+  },
+  {
+    "imgPath": "/src/images/CalendarDashboard.png",
+    "bgColor": "#181210",
+    "code": `a!localVariables(
+  local!cardStyle: "#1e1e20",
+  local!primaryColor: "#e7e8e8",
+  local!secondaryColor: "#3e3f40",
+  local!categoryData: {
+    a!map(
+      color: "#fdd885",
+      name: "Personal",
+      width: 7
+    ),
+    a!map(
+      color: "#b8d9fd",
+      name: "Work",
+      width: 4
+    ),
+    a!map(
+      color: "#f6aad7",
+      name: "Health",
+      width: 9
+    )
+  },
+  local!currentDate: today(),
+  local!currentYear: year(local!currentDate),
+  local!currentMonth: month(local!currentDate),
+  local!monthNamesShort:{"Jan","Feb","Mar","Apr","May","June","July","Aug","Sep","Oct","Nov","Dec"},
+  local!monthNames: {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"},
+  local!selectedMonth: index(
+    local!monthNames,
+    local!currentMonth,
+    null()
+  ),
+  local!selectedType:2,
+  local!filterData:{
+    a!map(
+      type: 1,
+      title: "Month",
+      value: 1,
+    ),
+    a!map(
+      type: 2,
+      title: "Week",
+      value: 2,
+    ),
+    a!map(
+      type: 3,
+      title: "Day",
+      value: 3,
+    ),
+  },
+  local!currentDay: weekday(local!currentDate),
+  local!firstDate: local!currentDate-local!currentDay+1,
+  local!weekDays: {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"},
+  local!datesData: a!forEach(
+    items: enumerate(7)+1,
+    expression: a!map(
+      day: day(local!firstDate+fv!item-1),
+      name: index(local!weekDays,fv!item,null()),
+      date: local!firstDate+fv!item-1,
+      month: index(local!monthNamesShort,month(local!firstDate+fv!item-1),null()),
+    )
+  ),
+  local!selectedDates:{},
+  local!startDateTime: todatetime("1/1/2023 10:00 AM"),
+  local!timeValues: a!forEach(
+    items: enumerate(11),
+    expression: totime(local!startDateTime+fv!item/24),
+  ),
+  local!appointmentData:{
+    a!map(
+      id:1,
+      title: "UI Development",
+      date: today(),
+      startTime: totime("09:20 AM"),
+      period: 30,
+      startAt: today()+totime("09:20 AM"),
+      endAt: today()+totime("09:20 AM")+(30/60)/24,
+      assignee: {loggedInUser(),"aakashs@appcino.com","amanj2@appcino.com","appianESGDemo"},
+      bgColor: "#b8d9ff",
+    ),
+    a!map(
+      id:2,
+      title: "Team Meet",
+      date: today(),
+      startTime: totime("10:00 AM"),
+      period: 55,
+      startAt: today()+totime("10:00 AM"),
+      endAt: today()+totime("10:00 AM")+(55/60)/24,
+      assignee: {"harsheenb@appcino.com",loggedInUser(),"Procurement_User"},
+      bgColor: "#c0b0ff"
+    ),
+    a!map(
+      id:3,
+      title: "Design Session",
+      date: today(),
+      startTime: totime("11:30 AM"),
+      period: 150,
+      startAt: today()+totime("11:30 AM"),
+      endAt: today()+totime("11:30 AM")+(150/60)/24,
+      assignee: {"TMS_MR",loggedInUser()},
+      bgColor: "#fff"
+    ),
+    a!map(
+      id:4,
+      title: "New Project",
+      date: today()-1,
+      startTime: totime("10:30 AM"),
+      period: 250,
+      startAt: today()-1+totime("10:30 AM"),
+      endAt: today()-1+totime("10:30 AM")+(250/60)/24,
+      assignee: {"miguel.parrado@appcino.com",loggedInUser()},
+      bgColor: "#fdd484"
+    ),
+    a!map(
+      id:5,
+      title: "Design Review",
+      date: today()+1,
+      startTime: totime("01:00 PM"),
+      period: 250,
+      startAt: today()+1+totime("01:00 PM"),
+      endAt: today()+1+totime("01:00 PM")+(250/60)/24,
+      assignee: {"rishikeshr@appcino.com",loggedInUser(),"riyazg@appcino.com","rohitm@appcino.com"},
+      bgColor: "#a5eebe"
+    ),
+    a!map(
+      id:1,
+      title: "UI Development",
+      date: today()+6,
+      startTime: totime("09:20 AM"),
+      period: 30,
+      startAt: today()+6+totime("09:20 AM"),
+      endAt: today()+6+totime("09:20 AM")+(30/60)/24,
+      assignee: {loggedInUser(),"aakashs@appcino.com","amanj2@appcino.com","appianESGDemo"},
+      bgColor: "#b8d9ff",
+    ),
+    a!map(
+      id:2,
+      title: "Team Meet",
+      date: today()-6,
+      startTime: totime("10:00 AM"),
+      period: 55,
+      startAt: today()-6+totime("10:00 AM"),
+      endAt: today()-6+totime("10:00 AM")+(55/60)/24,
+      assignee: {"harsheenb@appcino.com",loggedInUser(),"Procurement_User"},
+      bgColor: "#c0b0ff"
+    ),
+    a!map(
+      id:3,
+      title: "Design Session",
+      date: today()-5,
+      startTime: totime("11:30 AM"),
+      period: 150,
+      startAt: today()-5+totime("11:30 AM"),
+      endAt: today()-5+totime("11:30 AM")+(150/60)/24,
+      assignee: {"TMS_MR",loggedInUser()},
+      bgColor: "#fff"
+    ),
+    a!map(
+      id:4,
+      title: "New Project",
+      date: today()-4,
+      startTime: totime("10:30 AM"),
+      period: 250,
+      startAt: today()-4+totime("10:30 AM"),
+      endAt: today()-4+totime("10:30 AM")+(250/60)/24,
+      assignee: {"miguel.parrado@appcino.com",loggedInUser()},
+      bgColor: "#fdd484"
+    ),
+    a!map(
+      id:5,
+      title: "Design Review",
+      date: today()-3,
+      startTime: totime("01:00 PM"),
+      period: 250,
+      startAt: today()-3+totime("01:00 PM"),
+      endAt: today()-3+totime("01:00 PM")+(250/60)/24,
+      assignee: {"rishikeshr@appcino.com",loggedInUser(),"riyazg@appcino.com","rohitm@appcino.com"},
+      bgColor: "#a5eebe"
+    )
+  },
+  a!headerContentLayout(
+    contentsPadding: "LESS",
+    backgroundColor: "#181210",
+    contents: {
+      a!columnsLayout(
+        spacing: "DENSE",
+        columns: {
+          a!columnLayout(
+            width: "3X",
+            contents: {
+              a!cardLayout(
+                shape: "ROUNDED",
+                marginBelow: "LESS",
+                style: local!cardStyle,
+                showBorder: false,
+                padding: "LESS",
+                contents: {
+                  a!columnsLayout(
+                    alignVertical: "MIDDLE",
+                    columns: {
+                      a!columnLayout(
+                        width: "2X",
+                        contents: {
+                          a!sideBySideLayout(
+                            items: {
+                              a!sideBySideItem(
+                                width: "MINIMIZE",
+                                item: a!imageField(
+                                  style: "AVATAR",
+                                  size: "TINY",
+                                  images: {
+                                    a!userImage(
+                                      user: loggedInUser()
+                                    )
+                                  }
+                                )
+                              ),
+                              a!sideBySideItem(
+                                item: a!richTextDisplayField(
+                                  value: {
+                                    a!richTextItem(
+                                      text: {
+                                        user(loggedInUser(),"firstName"),
+                                        " ",
+                                        user(loggedInUser(),"lastName")
+                                      },
+                                      style: "STRONG",
+                                      color: local!primaryColor
+                                    ),
+                                    char(10),
+                                    a!richTextItem(
+                                      text: {
+                                        "Product Designer"
+                                      },
+                                      size: "SMALL",
+                                      color: "#7f8182"
+                                    )
+                                  }
+                                )
+                              )
+                            }
+                          )
+                        }
+                      ),
+                      a!columnLayout(
+                        width: "EXTRA_NARROW",
+                        contents: {
+                          a!sideBySideLayout(
+                            spacing: "NONE",
+                            items: {
+                              a!sideBySideItem(
+                                item: a!stampField(
+                                  labelPosition: "COLLAPSED",
+                                  align: "END",
+                                  size: "TINY",
+                                  icon: "calendar-o",
+                                  backgroundColor: "#0f0f0f"
+                                )
+                              ),
+                              a!sideBySideItem(
+                                width: "MINIMIZE",
+                                item: a!richTextDisplayField(
+                                  labelPosition: "COLLAPSED",
+                                  value: {
+                                    a!richTextIcon(
+                                      icon: "bell",
+                                      color: "#b591ef"
+                                    )
+                                  }
+                                )
+                              )
+                            }
+                          )
+                        }
+                      )
+                    }
+                  )
+                }
+              ),
+              rule!AD_dynamicCalendar(
+                bgColor: local!cardStyle,
+                primaryColor: local!primaryColor,
+                secondaryColor: local!secondaryColor,
+                dataSet: { a!map( date: today()+5, bgColor: "#f0f3f7", title: "Stage-01" ), a!map( date: today()+9, bgColor: "#b591ef", title: "Stage-02" ) },
+                marginBelow: "LESS",
+                selectedDates: local!selectedDates
+              ),
+              a!cardLayout(
+                shape: "ROUNDED",
+                marginBelow: "LESS",
+                style: local!cardStyle,
+                marginAbove: "LESS",
+                showBorder: false,
+                padding: "LESS",
+                contents: {
+                  a!sectionLayout(
+                    isCollapsible: true,
+                    labelSize: "EXTRA_SMALL",
+                    labelColor: local!primaryColor,
+                    label: "Categories",
+                    marginBelow: "NONE",
+                    contents: {
+                      a!forEach(
+                        items: local!categoryData,
+                        expression: {
+                          a!columnsLayout(
+                            spacing: "DENSE",
+                            alignVertical: "MIDDLE",
+                            columns: {
+                              a!columnLayout(
+                                width: "4X",
+                                contents: {
+                                  a!sideBySideLayout(
+                                    alignVertical: "MIDDLE",
+                                    items: {
+                                      a!sideBySideItem(
+                                        width: "MINIMIZE",
+                                        item: a!richTextDisplayField(
+                                          labelPosition: "COLLAPSED",
+                                          value: {
+                                            a!richTextIcon(
+                                              icon: "circle",
+                                              color: index(fv!item,"color",null())
+                                            )
+                                          }
+                                        )
+                                      ),
+                                      a!sideBySideItem(
+                                        width: "MINIMIZE",
+                                        item: a!richTextDisplayField(
+                                          labelPosition: "COLLAPSED",
+                                          value: {
+                                            a!richTextItem(
+                                              text: index(fv!item,"name",null()),
+                                              color: local!primaryColor
+                                            )
+                                          }
+                                        )
+                                      )
+                                    }
+                                  )
+                                }
+                              ),
+                              a!columnLayout(
+                                width: "6X",
+                                contents: {
+                                  a!cardLayout(
+                                    showBorder: false,
+                                    shape: "ROUNDED",
+                                    padding: "NONE",
+                                    style: local!secondaryColor,
+                                    contents: {
+                                      a!columnsLayout(
+                                        marginAbove: "NONE",
+                                        marginBelow: "NONE",
+                                        spacing: "NONE",
+                                        columns: {
+                                          a!columnLayout(
+                                            width: index(fv!item,"width",null())&"X",
+                                            contents: {
+                                              a!horizontalLine(
+                                                marginAbove: "NONE",
+                                                marginBelow: "NONE",
+                                                color: index(fv!item,"color",null()),
+                                                weight: "THICK"
+                                              )
+                                            }
+                                          ),
+                                          a!columnLayout(
+                                            width: "3X",
+                                          )
+                                        }
+                                      )
+                                    }
+                                  )
+                                }
+                              )
+                            }
+                          )
+                        }
+                      )
+                    }
+                  )
+                }
+              ),
+            }
+          ),
+          a!columnLayout(
+            width: "7X",
+            contents: {
+              a!cardLayout(
+                style: "",
+                showBorder: false,
+                shape: "ROUNDED",
+                padding: "NONE",
+                contents: {
+                  a!cardLayout(
+                    style: "TRANSPARENT",
+                    showBorder: false,
+                    padding: "LESS",
+                    marginBelow: "NONE",
+                    contents: {
+                      a!columnsLayout(
+                        alignVertical: "MIDDLE",
+                        columns: {
+                          a!columnLayout(
+                            contents: {
+                              a!richTextDisplayField(
+                                labelPosition: "COLLAPSED",
+                                value: {
+                                  a!richTextItem(
+                                    text: {
+                                      local!selectedMonth,
+                                      ", ",
+                                      local!currentYear
+                                    },
+                                    size: "MEDIUM",
+                                    style: ""
+                                  )
+                                }
+                              )
+                            }
+                          ),
+                          a!columnLayout(
+                            width: "NARROW_PLUS",
+                            contents: {
+                              a!cardLayout(
+                                shape: "ROUNDED",
+                                padding: "EVEN_LESS",
+                                style: "#f5f6f7",
+                                showBorder: false,
+                                contents: {
+                                  a!columnsLayout(
+                                    spacing: "DENSE",
+                                    columns: a!forEach(
+                                      items: local!filterData,
+                                      expression: a!columnLayout(
+                                        contents: {
+                                          a!cardLayout(
+                                            shape: "ROUNDED",
+                                            showBorder: false,
+                                            style: if(
+                                              local!selectedType = index(fv!item,"type",null()),
+                                              "",
+                                              "TRANSPARENT"
+                                            ),
+                                            contents: {
+                                              a!richTextDisplayField(
+                                                labelPosition: "COLLAPSED",
+                                                align: "CENTER",
+                                                value: a!richTextItem(
+                                                  text: index(fv!item,"title",null()),
+                                                  style: "STRONG",
+                                                  color: if(
+                                                    local!selectedType = index(fv!item,"type",null()),
+                                                    "ACCENT",
+                                                    local!secondaryColor
+                                                  )
+                                                )
+                                              )
+                                            },
+                                            link: a!dynamicLink(
+                                              value: index(fv!item,"type",null()),
+                                              saveInto: {
+                                                local!selectedType
+                                              }
+                                            )
+                                          )
+                                        }
+                                      )
+                                    )
+                                  )
+                                }
+                              )
+                            }
+                          ),
+                          a!columnLayout(
+                            width: "",
+                            contents: {
+                              a!sideBySideLayout(
+                                alignVertical: "MIDDLE",
+                                items: {
+                                  a!sideBySideItem(
+                                    item: a!richTextDisplayField(
+                                      align: "RIGHT",
+                                      labelPosition: "COLLAPSED",
+                                      value: {
+                                        a!richTextIcon(
+                                          icon: "caret-square-left",
+                                          size: "MEDIUM_PLUS",
+                                          color: "#bbb",
+                                          linkStyle: "STANDALONE",
+                                          link: a!dynamicLink(
+                                            value: if(
+                                              local!selectedType = 3,
+                                              local!currentDate-1,
+                                              if(
+                                                local!selectedType = 2,
+                                                local!currentDate-7,
+                                                if(
+                                                  local!currentMonth-1<1,
+                                                  todate(concat("12/1/",local!currentYear-1)),
+                                                  todate(concat(local!currentMonth-1,"/1/",local!currentYear))
+                                                )
+                                              )
+                                            ),
+                                            saveInto: {
+                                              local!currentDate
+                                            }
+                                          )
+                                        )
+                                      }
+                                    )
+                                  ),
+                                  a!sideBySideItem(
+                                    width: "MINIMIZE",
+                                    item: a!richTextDisplayField(
+                                      align: "RIGHT",
+                                      labelPosition: "COLLAPSED",
+                                      value: {
+                                        a!richTextItem(
+                                          text: {
+                                            if(
+                                              local!currentDate = today(),
+                                              "Today",
+                                              {local!selectedMonth," ",day(local!currentDate)}
+                                            )
+                                          },
+                                          size: "MEDIUM",
+                                        )
+                                      }
+                                    )
+                                  ),
+                                  a!sideBySideItem(
+                                    width: "MINIMIZE",
+                                    item: a!richTextDisplayField(
+                                      align: "RIGHT",
+                                      labelPosition: "COLLAPSED",
+                                      value: {
+                                        a!richTextIcon(
+                                          icon: "caret-square-right",
+                                          size: "MEDIUM_PLUS",
+                                          color: "#bbb",
+                                          linkStyle: "STANDALONE",
+                                          link: a!dynamicLink(
+                                            value: if(
+                                              local!selectedType = 3,
+                                              local!currentDate+1,
+                                              if(
+                                                local!selectedType = 2,
+                                                local!currentDate+7,
+                                                if(
+                                                  local!currentMonth+1>12,
+                                                  todate(concat("1/1/",local!currentYear+1)),
+                                                  todate(concat(local!currentMonth+1,"/1/",local!currentYear))
+                                                )
+                                              )
+                                            ),
+                                            saveInto: {
+                                              local!currentDate
+                                            }
+                                          )
+                                        )
+                                      }
+                                    )
+                                  ),
+                                }
+                              )
+                            }
+                          )
+                        }
+                      ),
+                      a!columnsLayout(
+                        spacing: "DENSE",
+                        alignVertical: "MIDDLE",
+                        columns: {
+                          a!columnLayout(
+                            width: "EXTRA_NARROW",
+                            contents: {
+                              a!richTextDisplayField(
+                                align: "CENTER",
+                                labelPosition: "COLLAPSED",
+                                value: {
+                                  a!richTextIcon(
+                                    icon: "calendar-alt",
+                                    size: "MEDIUM_PLUS",
+                                  )
+                                }
+                              )
+                            }
+                          ),
+                          a!forEach(
+                            items: local!datesData,
+                            expression: {
+                              a!columnLayout(
+                                contents: {
+                                  a!cardLayout(
+                                    shape: "ROUNDED",
+                                    style: if(
+                                      local!currentDate = index(fv!item,"date",null()),
+                                      "#262626",
+                                      "#f5f6f7"
+                                    ),
+                                    showBorder: false,
+                                    padding: "STANDARD",
+                                    contents: {
+                                      a!richTextDisplayField(
+                                        labelPosition: "COLLAPSED",
+                                        align: "CENTER",
+                                        value: {
+                                          a!richTextItem(
+                                            size: "STANDARD",
+                                            text: index(fv!item,"month",null())
+                                          ),
+                                          char(10),
+                                          a!richTextItem(
+                                            size: "MEDIUM_PLUS",
+                                            style: "STRONG",
+                                            text: index(fv!item,"day",null())
+                                          ),
+                                          char(10),
+                                          a!richTextItem(
+                                            size: "SMALL",
+                                            text: index(fv!item,"name",null())
+                                          ),
+                                        }
+                                      )
+                                    },
+                                    link: a!dynamicLink(
+                                      value: index(fv!item,"date",null()),
+                                      saveInto: {
+                                        local!currentDate
+                                      }
+                                    )
+                                  )
+                                }
+                              )
+                            }
+                          )
+                        }
+                      )
+                    }
+                  ),
+                  a!horizontalLine(
+                    marginAbove: "NONE",
+                    marginBelow: "NONE",
+                    color: "#f3f4f5"
+                  ),
+                  a!cardLayout(
+                    showBorder: false,
+                    style: "#f3f4f5",
+                    padding: "LESS",
+                    contents: {
+                      a!columnsLayout(
+                        spacing: "DENSE",
+                        showDividers: true(),
+                        columns: {
+                          a!columnLayout(
+                            width: "EXTRA_NARROW",
+                            contents: {
+                              a!forEach(
+                                items: local!timeValues,
+                                expression: {
+                                  a!richTextDisplayField(
+                                    align: "CENTER",
+                                    value: {
+                                      a!forEach(
+                                        items: enumerate(6),
+                                        expression: char(10),
+                                      ),
+                                      a!richTextItem(
+                                        text: fv!item,
+                                        size: "SMALL"
+                                      )
+                                    }
+                                  ),
+                                  a!horizontalLine(
+                                    marginAbove: "NONE",
+                                    marginBelow: "NONE",
+                                    showWhen: not(fv!isLast)
+                                  )
+                                },
+                              )
+                            }
+                          ),
+                          a!forEach(
+                            items: local!datesData,
+                            expression: a!columnLayout(
+                              contents: {
+                                a!localVariables(
+                                  local!currentData: index(
+                                    local!appointmentData,
+                                    wherecontains(
+                                      todate(index(fv!item,"date",null())),
+                                      apply(todate(_),index(local!appointmentData,"date",null()))
+                                    ),
+                                    null()
+                                  ),
+                                  local!startDateTime: todatetime(todate(index(fv!item,"date",null()))+"09:00 AM"),
+                                  {
+                                    a!forEach(
+                                      items: local!currentData,
+                                      expression: {
+                                        if(
+                                          fv!isFirst,
+                                          a!richTextDisplayField(
+                                            marginAbove: "NONE",
+                                            marginBelow: "NONE",
+                                            value: a!richTextItem(
+                                              text: a!localVariables(
+                                                local!refernceDateTime: index(fv!item,"startAt",null())-local!startDateTime,
+                                                local!hour: hour(local!refernceDateTime),
+                                                local!min: minute(local!refernceDateTime),
+                                                local!period: local!hour*8+tointeger(local!min)/10,
+                                                a!forEach(
+                                                  items: enumerate(local!period),
+                                                  expression: char(10)
+                                                )
+                                              )
+                                            )
+                                          ),
+                                          a!richTextDisplayField(
+                                            marginAbove: "NONE",
+                                            marginBelow: "NONE",
+                                            value: a!localVariables(
+                                              local!lastData: index(local!currentData,fv!index-1,null()),
+                                              local!lastEndAt: index(local!lastData,"endAt",null()),
+                                              local!refernceDateTime: index(fv!item,"startAt",null())-local!lastEndAt,
+                                              local!hour: hour(local!refernceDateTime),
+                                              local!min: minute(local!refernceDateTime),
+                                              local!period: local!hour*8+tointeger(local!min)/10,
+                                              a!forEach(
+                                                items: enumerate(local!period),
+                                                expression: char(10)
+                                              ) 
+                                            )
+                                          ),
+                                        ),
+                                        a!cardLayout(
+                                          padding: "NONE",
+                                          shape: "ROUNDED",
+                                          marginAbove: "NONE",
+                                          marginBelow: "NONE",
+                                          showBorder: false,
+                                          style: index(fv!item,"bgColor",null),
+                                          contents: {
+                                            a!richTextDisplayField(
+                                              marginAbove: "NONE",
+                                              marginBelow: "NONE",
+                                              align: "CENTER",
+                                              value: {
+                                                a!richTextItem(
+                                                  text: index(fv!item,"title",null()),
+                                                  style: "STRONG"
+                                                ),
+                                                char(10),
+                                                a!richTextItem(
+                                                  text: concat(
+                                                    totime(index(fv!item,"startAt",null())),
+                                                    " - ",
+                                                    totime(index(fv!item,"endAt",null()))
+                                                  ),
+                                                  color: "SECONDARY",
+                                                  size: "SMALL"
+                                                )
+                                              }
+                                            ),
+                                            a!sideBySideLayout(
+                                              marginAbove: "EVEN_LESS",
+                                              spacing: "NONE",
+                                              items: {
+                                                a!sideBySideItem(
+                                                  width: "MINIMIZE",
+                                                  item: a!richTextDisplayField(
+                                                    value: " "
+                                                  )
+                                                ),
+                                                a!forEach(
+                                                  items: index(fv!item,"assignee",null),
+                                                  expression: a!sideBySideItem(
+                                                    width: "MINIMIZE",
+                                                    item: a!imageField(
+                                                      size: "ICON",
+                                                      style: "AVATAR",
+                                                      images: a!userImage(
+                                                        user: fv!item
+                                                      )
+                                                    )
+                                                  ),
+                                                ),
+                                                a!sideBySideItem(
+                                                  width: "MINIMIZE",
+                                                  item: a!richTextDisplayField(
+                                                    value: {
+                                                      char(9),
+                                                      char(9),
+                                                    }
+                                                  )
+                                                ),
+                                              }
+                                            ),
+                                            a!richTextDisplayField(
+                                              marginAbove: "NONE",
+                                              marginBelow: "NONE",
+                                              value: a!richTextItem(
+                                                text:{
+                                                  a!localVariables(
+                                                    local!refernceDateTime: index(fv!item,"endAt",null())- index(fv!item,"startAt",null()),
+                                                    local!hour: hour(local!refernceDateTime),
+                                                    local!min: if(
+                                                      minute(local!refernceDateTime)-30<0,
+                                                      0,
+                                                      minute(local!refernceDateTime)-30
+                                                    ),
+                                                    local!period: local!hour*7+tointeger(local!min)/10,
+                                                    {
+                                                      a!forEach(
+                                                        items: enumerate(local!period),
+                                                        expression: char(10)
+                                                      ),
+                                                    }
+                                                  ),
+                                                }
+                                              )
+                                            ),
+                                          }
+                                        )
+                                      }
+                                    )
+                                  }
+                                )
+                              }
+                            )
+                          )
+                        }
+                      )
+                    }
+                  )
+                },
+              ),
+            }
+          ),
+        }
+      )
+    }
+  )
+    )`
+  },
+  {
+    "imgPath": "/src/images/dynamicCalendar.png",
+    "bgColor": "",
+    "code":  `a!localVariables(
+  /*------ri------
+  
+  name            type
+  
+  primaryColor    text
+  secondaryColor  text
+  bgColor         text
+  dataSet         map(list)
+                  description
+                  {
+                    a!map(
+                      date: today()+5,
+                      bgColor: "#f0f3f7",
+                      title: "Stage-01"
+                    ),
+                    a!map(
+                      date: today()+9,
+                      bgColor: "#f1d3e7",
+                      title: "Stage-02"
+                    )
+                  },
+
+  showSwitchStyle boolean
+  marginBelow     text
+  marginAbove     text
+  selectedDates   date(list)
+
+  */
+  local!primaryColor: if(
+    a!isNullOrEmpty(ri!primaryColor),
+    "#172032",
+    ri!primaryColor
+  ),
+  local!secondaryColor: if(
+    a!isNullOrEmpty(ri!secondaryColor),
+    "#90949e",
+    ri!secondaryColor
+  ),
+  local!calendarStyleSet: {
+    a!map(
+      type: 1,
+      title: "Su-Sa",
+      value: {"Su","Mo","Tu","We","Th","Fr","Sa"},
+    ),
+    a!map(
+      type: 2,
+      title: "Mo-Su",
+      value: {"Mo","Tu","We","Th","Fr","Sa","Su"},
+    )
+  },
+  local!selectedCalendarStyle: 1,
+  local!weekdayNames: index(
+    index(
+      index(local!calendarStyleSet,"value",null()),
+      wherecontains(
+        tointeger(local!selectedCalendarStyle),
+        tointeger(index(local!calendarStyleSet,"type",null()))
+      ),
+      null()
+    ),
+    1,
+    null()
+  ),
+  local!monthNames: {"Jan","Feb","Mar","Apr","May","June","July","Aug","Sep","Oct","Nov","Dec"},
+  local!today: today(),
+  local!currentDate: today(),
+  local!currentMonth: month(local!currentDate),
+  local!currentYear: year(local!currentDate),
+  local!firstDateOfCurrentMonth: todate(concat({local!currentMonth,"/1/",local!currentYear})),
+  local!lastDayOfCurrentMonth: daysinmonth(local!currentMonth,local!currentYear),
+  local!lastDateOfCurrentMonth: todate(concat({local!currentMonth,"/",local!lastDayOfCurrentMonth,"/",local!currentYear})),
+  local!weekDayOfFirstDate: weekday(local!firstDateOfCurrentMonth, local!selectedCalendarStyle),
+  local!weekDayOfLastDate: weekday(local!lastDateOfCurrentMonth, local!selectedCalendarStyle),
+  local!firstDateOfCalendarScreen: local!firstDateOfCurrentMonth-local!weekDayOfFirstDate+1,
+  local!lastDateOfCalendarScreen: local!lastDateOfCurrentMonth+7-local!weekDayOfLastDate,
+  local!completeRange: (tointeger(local!lastDateOfCalendarScreen-local!firstDateOfCalendarScreen)+1)/7,
+  local!dataSet:ri!dataSet,
+  {
+    a!cardLayout(
+      shape: "ROUNDED",
+      padding: "NONE",
+      style: ri!bgColor,
+      showBorder: false,
+      contents: {
+        a!cardLayout(
+          showBorder: false,
+          padding: "STANDARD",
+          style: "TRANSPARENT",
+          contents: {
+            a!columnsLayout(
+              alignVertical: "MIDDLE",
+              marginBelow: "NONE",
+              columns: {
+                a!columnLayout(
+                  width: "2X",
+                  contents: {
+                    a!sideBySideLayout(
+                      marginAbove: "NONE",
+                      marginBelow: "NONE",
+                      alignVertical: "MIDDLE",
+                      items: {
+                        a!sideBySideItem(
+                          width: "MINIMIZE",
+                          item: a!richTextDisplayField(
+                            labelPosition: "COLLAPSED",
+                            value: {
+                              a!richTextIcon(
+                                icon: "caret-square-left",
+                                size: "MEDIUM_PLUS",
+                                color: local!secondaryColor,
+                                linkStyle: "STANDALONE",
+                                link: a!dynamicLink(
+                                  value: local!firstDateOfCurrentMonth-1,
+                                  saveInto: local!currentDate
+                                )
+                              )
+                            }
+                          )
+                        ),
+                        a!sideBySideItem(
+                          width: "MINIMIZE",
+                          item: a!richTextDisplayField(
+                            labelPosition: "COLLAPSED",
+                            value: a!richTextItem(
+                              text: {
+                                index(local!monthNames,local!currentMonth,null()),
+                                ", ",
+                                local!currentYear
+                              },
+                              color: local!primaryColor,
+                              style: "",
+                              size: "MEDIUM"
+                            )
+                          )
+                        ),
+                        a!sideBySideItem(
+                          width: "MINIMIZE",
+                          item: a!richTextDisplayField(
+                            labelPosition: "COLLAPSED",
+                            value: {
+                              a!richTextIcon(
+                                icon: "caret-square-right",
+                                size: "MEDIUM_PLUS",
+                                color: local!secondaryColor,
+                                linkStyle: "STANDALONE",
+                                link: a!dynamicLink(
+                                  value: local!lastDateOfCurrentMonth+1,
+                                  saveInto: local!currentDate
+                                )
+                              )
+                            }
+                          )
+                        ),
+                      }
+                    )
+                  }
+                ),
+                a!columnLayout(
+                  showWhen: ri!showSwitchStyle=true,
+                  width: "NARROW",
+                  contents: {
+                    a!cardLayout(
+                      shape: "ROUNDED",
+                      padding: "EVEN_LESS",
+                      style: "#f5f6f7",
+                      showBorder: false,
+                      contents: {
+                        a!columnsLayout(
+                          spacing: "DENSE",
+                          columns: a!forEach(
+                            items: local!calendarStyleSet,
+                            expression: a!columnLayout(
+                              contents: {
+                                a!cardLayout(
+                                  shape: "ROUNDED",
+                                  showBorder: false,
+                                  style: if(
+                                    local!selectedCalendarStyle = index(fv!item,"type",null()),
+                                    "",
+                                    "TRANSPARENT"
+                                  ),
+                                  contents: {
+                                    a!richTextDisplayField(
+                                      labelPosition: "COLLAPSED",
+                                      align: "CENTER",
+                                      value: a!richTextItem(
+                                        text: index(fv!item,"title",null()),
+                                        style: "STRONG",
+                                        color: if(
+                                          local!selectedCalendarStyle = index(fv!item,"type",null()),
+                                          "ACCENT",
+                                          local!secondaryColor
+                                        )
+                                      )
+                                    )
+                                  },
+                                  link: a!dynamicLink(
+                                    value: index(fv!item,"type",null()),
+                                    saveInto: {
+                                      local!selectedCalendarStyle
+                                    }
+                                  )
+                                )
+                              }
+                            )
+                          )
+                        )
+                      }
+                    )
+                  }
+                )
+              }
+            )
+          }
+        ),
+        a!horizontalLine(
+          color: local!secondaryColor,
+          marginBelow: "NONE",
+          marginAbove: "NONE"
+        ),
+        {
+          a!columnsLayout(
+            marginAbove: "EVEN_LESS",
+            marginBelow: "EVEN_LESS",
+            columns: a!forEach(
+              items: local!weekdayNames,
+              expression: a!columnLayout(
+                contents: {
+                  a!richTextDisplayField(
+                    align: "CENTER",
+                    labelPosition: "COLLAPSED",
+                    value: {
+                      a!richTextItem(
+                        style: "STRONG",
+                        text: fv!item,
+                        color: local!primaryColor
+                      )
+                    }
+                  )
+                }
+              )
+            )
+          ),
+          a!horizontalLine(
+            color: local!secondaryColor,
+            marginBelow: "NONE"
+          ),
+          a!forEach(
+            items: enumerate(local!completeRange),
+            expression: a!columnsLayout(
+              marginAbove: "NONE",
+              alignVertical: "MIDDLE",
+              marginBelow: if(
+                fv!isLast,
+                "LESS",
+                "NONE"
+              ),
+              columns: a!forEach(
+                items: enumerate(7)+7*(fv!index-1),
+                expression: a!columnLayout(
+                  contents: {
+                    a!localVariables(
+                      local!dateValue:local!firstDateOfCalendarScreen+fv!item,
+                      local!colorBySet: index(
+                        index(
+                          index(local!dataSet,"bgColor",null()),
+                          wherecontains(
+                            todate(local!dateValue),
+                            todate(index(local!dataSet,"date",null()))
+                          ),
+                          null()
+                        ),
+                        1,
+                        null()
+                      ),
+                      local!itemColor: if(
+                        contains(
+                          todate(append(ri!selectedDates,local!today)),
+                          todate(local!dateValue)
+                        ),
+                        "ACCENT",
+                        if(
+                          a!isNullOrEmpty(local!colorBySet),
+                          if(
+                            or(
+                              local!dateValue<local!firstDateOfCurrentMonth,
+                              local!dateValue>local!lastDateOfCurrentMonth
+                            ),
+                            local!secondaryColor,
+                            local!primaryColor
+                          ),
+                          local!colorBySet
+                        )
+                      ),
+                      local!itemStyle:if(
+                        contains(
+                          todate(ri!selectedDates),
+                          todate(local!dateValue)
+                        ),
+                        1,
+                        if(
+                          a!isNullOrEmpty(local!colorBySet),
+                          2,
+                          1
+                        )
+                      ),
+                      local!day: day(local!dateValue),
+                      choose(
+                        local!itemStyle,
+                        a!stampField(
+                          align: "CENTER",
+                          marginAbove: "NONE",
+                          marginBelow: "NONE",
+                          labelPosition: "COLLAPSED",
+                          size: "TINY",
+                          backgroundColor: local!itemColor,
+                          text: local!day,
+                          link: a!dynamicLink(
+                            value: local!dateValue,
+                            saveInto: {
+                              a!save(
+                                ri!selectedDates,
+                                remove(
+                                  ri!selectedDates,
+                                  wherecontains(
+                                    todate(local!dateValue),
+                                    todate(ri!selectedDates)
+                                  )
+                                )
+                              )
+                            }
+                          )
+                        ),
+                        a!richTextDisplayField(
+                          labelPosition: "COLLAPSED",
+                          marginAbove: "NONE",
+                          marginBelow: "NONE",
+                          align: "CENTER",
+                          value: {
+                            a!richTextItem(
+                              text: {
+                                char(10),
+                                local!day,
+                                char(10),
+                                char(10)
+                              },
+                              color: local!itemColor,
+                              linkStyle: "STANDALONE",
+                              link: a!dynamicLink(
+                                value: local!dateValue,
+                                saveInto: {
+                                  a!save(
+                                    ri!selectedDates,
+                                    append(ri!selectedDates,local!dateValue)
+                                  )
+                                }
+                              )
+                            )
+                          }
+                        )
+                      )
+                    )
+                  }
+                )
+              )
+            )
+          )
+        }
+      },
+      marginAbove: ri!marginAbove,
+      marginBelow: ri!marginBelow
+    ),
+    a!cardLayout(
+      showBorder: false,
+      shape: "ROUNDED",
+      style: ri!bgColor,
+      showWhen: a!isNotNullOrEmpty(ri!dataSet),
+      contents: a!forEach(
+        items: union(
+          index(local!dataSet,"title",null()),
+          index(local!dataSet,"title",null()),
+        ),
+        expression:{
+          a!sideBySideLayout(
+            alignVertical: "MIDDLE",
+            items: {
+              a!sideBySideItem(
+                item: a!richTextDisplayField(
+                  align: "RIGHT",
+                  value: a!richTextItem(
+                    text: fv!item,
+                    style: "STRONG",
+                    color: local!primaryColor
+                  )
+                )
+              ),
+              a!sideBySideItem(
+                width: "MINIMIZE",
+                item: a!richTextDisplayField(
+                  value: a!richTextIcon(
+                    icon: "circle",
+                    color: index(
+                      index(local!dataSet,"bgColor",null()),
+                      wherecontains(
+                        touniformstring(fv!item),
+                        touniformstring(index(local!dataSet,"title",null()))
+                      ),
+                      null()
+                    )
+                  )
+                )
+              )
+            }
+          ),
+        }
+      )
+    )
+  }
+)` 
   }
   
   

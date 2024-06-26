@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Automation Interface</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsPlumb/2.15.6/css/jsplumbtoolkit-defaults.min.css">
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .nav-panel {
+            width: 200px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+        }
+
+        .nav-panel ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-panel li {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .nav-panel li:hover {
+            background: #34495e;
+        }
+
+        .workspace {
+            flex-grow: 1;
+            position: relative;
+            background: #ecf0f1;
+            overflow: auto;
+            padding: 20px;
+        }
+
+        .draggable-container {
+            width: 150px;
+            height: 100px;
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+            position: absolute;
+            cursor: pointer;
+        }
+
+        .label-input {
+            position: absolute;
+            display: none;
+            font-size: 12px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-panel">
+        <ul>
+            <li onclick="createContainer('isElementLocated')">isElementLocated</li>
+            <li onclick="createContainer('clickElement')">clickElement</li>
+            <li onclick="createContainer('inputText')">inputText</li>
+            <!-- Add more actions as needed -->
+        </ul>
+    </div>
+    <div class="workspace" id="workspace"></div>
+    <div class="nav-panel">
+        <ul>
+            <li onclick="createContainer('isElementLocated')">isElementLocated</li>
+            <li onclick="createContainer('clickElement')">clickElement</li>
+            <li onclick="createContainer('inputText')">inputText</li>
+            <!-- Add more actions as needed -->
+        </ul>
+    </div>
+    <input type="text" id="labelInput" class="label-input">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsPlumb/2.15.6/js/jsplumb.min.js"></script>
+    <script>
+        let containerCounter = 0;
+
+        function createContainer(actionType) {
+            containerCounter++;
+            const containerId = 'container-' + containerCounter;
+            const workspace = document.getElementById('workspace');
+
+            const container = document.createElement('div');
+            container.className = 'draggable-container';
+            container.id = containerId;
+            container.innerHTML = `<p>${actionType}</p>`;
+
+            workspace.appendChild(container);
+
+            // Make the container draggable
+            $(`#${containerId}`).draggable({
+                containment: '#workspace',
+                stop: function () {
+                    jsPlumb.repaintEverything();
+                    addEndpoints(containerId);
+                }
+            });
+
+            // Add endpoints
+            addEndpoints(containerId);
+        }
+
+        function addEndpoints(containerId) {
+            const endpoints = [
+                // { anchor: 'TopCenter' },
+                // { anchor: 'BottomCenter' },
+                { anchor: 'LeftMiddle' },
+                { anchor: 'RightMiddle' }
+            ];
+
+            endpoints.forEach(endpoint => {
+                jsPlumbInstance.addEndpoint(containerId, {
+                    anchors: [endpoint.anchor],
+                    endpoint: 'Dot',
+                    isSource: true,
+                    isTarget: true,
+                    maxConnections: 1,  // Line 50: Restrict to only one connection
+                    // paintStyle: { fill: 'blue', radius: 5 },
+                    paintStyle: {
+                        fill: 'white', // Inner circle color
+                        stroke: 'blue', // Outer circle color
+                        strokeWidth: 3, // Width of the outer circle
+                        radius: 7 // Radius of the endpoint
+                    },
+                    hoverPaintStyle: {
+                        fill: 'white',
+                        stroke: '#3498db',
+                        strokeWidth: 3
+                    },
+                    connector: ['Bezier', { curviness: 100 }],
+                    // connectorStyle: { stroke: 'black', strokeWidth: 2 },
+                    connectorStyle: { stroke: 'blue', strokeWidth: 2}, 
+                    connectorOverlays: [['Arrow', { location: 1 }]]
+                });
+            });
+
+            jsPlumbInstance.draggable(containerId);
+        }
+
+        const jsPlumbInstance = jsPlumb.getInstance({
+            Connector: 'Straight',
+            Endpoint: 'Dot',
+            EndpointStyle: { fill: 'blue' },
+            PaintStyle: { stroke: 'black', strokeWidth: 2 },
+            ConnectionOverlays: [
+                ['Arrow', { location: 1 }]
+            ]
+        });
+
+        jsPlumbInstance.setContainer(document.getElementById('workspace'));
+
+        // Line 56: Prevent connections between endpoints on the same container
+        jsPlumbInstance.bind('beforeDrop', function (info) {
+            if (info.sourceId.split('-')[1] === info.targetId.split('-')[1]) {
+                return false;  // Prevent connections within the same container
+            }
+            console.log(info.sourceId);
+            console.log(info.targetId);
+            return true;
+        });
+
+        function makeLabelEditable(connection) {
+            const labelOverlay = connection.getOverlay('label');
+            const labelDiv = labelOverlay.canvas;
+
+            labelDiv.ondblclick = function (event) {
+                event.stopPropagation();
+                const labelText = labelOverlay.getLabel();
+
+                const input = document.getElementById('labelInput');
+                input.value = labelText;
+                input.style.left = event.pageX + 'px';
+                input.style.top = event.pageY + 'px';
+                input.style.display = 'block';
+                input.focus();
+
+                function saveLabel() {
+                    labelOverlay.setLabel(input.value);
+                    input.style.display = 'none';
+                }
+
+                // Save on Enter key press
+                input.onkeydown = function (e) {
+                    if (e.key === 'Enter') {
+                        saveLabel();
+                    }
+                };
+
+                // Save on blur (click outside)
+                input.onblur = function () {
+                    saveLabel();
+                };
+            };
+        }
+
+        // Bind to connection event to add editable labels
+        jsPlumbInstance.bind('connection', function (info) {
+            makeLabelEditable(info.connection);
+        });
+    </script>
+</body>
+</html>

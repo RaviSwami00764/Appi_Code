@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editable Connector Label Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsPlumb/2.15.6/js/jsplumb.min.js"></script>
+    <style>
+        .draggable-container {
+            width: 100px;
+            height: 100px;
+            background: #f39c12;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            position: absolute;
+            cursor: move;
+        }
+
+        .label-input {
+            position: absolute;
+            display: none;
+            font-size: 12px;
+            z-index: 1000;
+        }
+
+        #workspace {
+            width: 800px;
+            height: 600px;
+            border: 1px solid #ccc;
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="workspace"></div>
+    <input type="text" id="labelInput" class="label-input">
+
+    <script>
+        let containerCounter = 0;
+
+        function createContainer(actionType) {
+            containerCounter++;
+            const containerId = 'container-' + containerCounter;
+            const workspace = document.getElementById('workspace');
+
+            const container = document.createElement('div');
+            container.className = 'draggable-container';
+            container.id = containerId;
+            container.innerHTML = `<p>${actionType}</p>`;
+
+            workspace.appendChild(container);
+
+            // Make the container draggable
+            $(`#${containerId}`).draggable({
+                containment: '#workspace',
+                stop: function () {
+                    jsPlumb.repaintEverything();
+                }
+            });
+
+            // Add endpoints
+            addEndpoints(containerId);
+        }
+
+        function addEndpoints(containerId) {
+            const endpoints = [
+                { anchor: 'TopCenter' },
+                { anchor: 'BottomCenter' },
+                { anchor: 'LeftMiddle' },
+                { anchor: 'RightMiddle' }
+            ];
+
+            endpoints.forEach(endpoint => {
+                jsPlumbInstance.addEndpoint(containerId, {
+                    anchors: [endpoint.anchor],
+                    endpoint: 'Dot',
+                    isSource: true,
+                    isTarget: true,
+                    maxConnections: 1,
+                    paintStyle: {
+                        fill: 'white',
+                        stroke: 'blue',
+                        strokeWidth: 3,
+                        radius: 7
+                    },
+                    hoverPaintStyle: {
+                        fill: 'white',
+                        stroke: '#3498db',
+                        strokeWidth: 3
+                    },
+                    connector: ['Bezier', { curviness: 100 }],
+                    connectorStyle: { stroke: 'black', strokeWidth: 2 },
+                    connectorOverlays: [
+                        ['Arrow', { location: 1 }],
+                        ['Label', { label: 'Edit me', location: 0.5, cssClass: 'connector-label' }]
+                    ]
+                });
+            });
+
+            jsPlumbInstance.draggable(containerId);
+        }
+
+        const jsPlumbInstance = jsPlumb.getInstance({
+            Connector: 'Bezier',
+            Endpoint: 'Dot',
+            EndpointStyle: { fill: 'blue' },
+            PaintStyle: { stroke: 'black', strokeWidth: 2 },
+            ConnectionOverlays: [
+                ['Arrow', { location: 1 }]
+            ]
+        });
+
+        jsPlumbInstance.setContainer(document.getElementById('workspace'));
+
+        // Prevent connections between endpoints on the same container
+        jsPlumbInstance.bind('beforeDrop', function (info) {
+            if (info.sourceId.split('-')[1] === info.targetId.split('-')[1]) {
+                return false;
+            }
+            return true;
+        });
+
+        // Function to make label editable
+        function makeLabelEditable(connection) {
+            const labelOverlay = connection.getOverlay('label');
+            const labelDiv = labelOverlay.canvas;
+
+            labelDiv.ondblclick = function (event) {
+                event.stopPropagation();
+                const labelText = labelOverlay.getLabel();
+
+                const input = document.getElementById('labelInput');
+                input.value = labelText;
+                input.style.left = event.pageX + 'px';
+                input.style.top = event.pageY + 'px';
+                input.style.display = 'block';
+                input.focus();
+
+                function saveLabel() {
+                    labelOverlay.setLabel(input.value);
+                    input.style.display = 'none';
+                }
+
+                // Save on Enter key press
+                input.onkeydown = function (e) {
+                    if (e.key === 'Enter') {
+                        saveLabel();
+                    }
+                };
+
+                // Save on blur (click outside)
+                input.onblur = function () {
+                    saveLabel();
+                };
+            };
+        }
+
+        // Bind to connection event to add editable labels
+        jsPlumbInstance.bind('connection', function (info) {
+            makeLabelEditable(info.connection);
+        });
+
+        // Example usage: Create containers and connect them
+        createContainer('Action 1');
+        createContainer('Action 2');
+
+        const connection = jsPlumbInstance.connect({
+            source: 'container-1',
+            target: 'container-2',
+            connector: ['Bezier', { curviness: 100 }],
+            overlays: [
+                ['Arrow', { location: 1, width: 10, length: 10 }],
+                ['Label', { label: 'Double-click to edit', location: 0.5, cssClass: 'connector-label' }]
+            ]
+        });
+
+        makeLabelEditable(connection);
+    </script>
+</body>
+</html>
